@@ -33,8 +33,21 @@
     <script type="text/javascript">
 
         $(document).ready(function(){  
-          $("#GroupConfigButton").click(loadGroupConfig);
-          $(document).on("click", "#GroupConfigButton",function(){ loadGroupConfig(); viewGroupConfig(); hideMainPage(); });
+          $(document).on("click", "#GroupConfigButton",function(){ loadGroupList(); viewGroupList(); hideMainPage(); });
+          $(document).on("click", ".editGroupButton",function(){            
+            //Select name where id = buttonname
+            var selectedGroupID =  $(this).attr('name');
+            var newGroupName = prompt("Neuer Gruppenname: ");
+            updateTask(selectedGroupID, newGroupName);
+            });
+          $(document).on("click", ".deleteGroupButton",function(){
+            
+            //Select name where id = buttonname
+            var selectedGroupID =  $(this).attr('name');
+            deleteGroup(selectedGroupID);
+            }); 
+          $(document).on("click", "#MemberButton",function(){ loadMemberList(); viewMemberList(); hideMainPage(); });
+          
         });
             
             
@@ -42,19 +55,17 @@
         {
             $(".mainpage").hide();
         } 
-            
         //Groupmanagement
             
-        function loadGroupConfig()
+        function loadGroupList()
         {
             $.ajax({ headers:{Accept:'application/json'}, type:'GET', url: "/JumuManagerWebGIT/api/groups", 
-
             success: function(response)
             {
                 var code ="<thead><tr><th>#</th><th>Groupname</th></tr></thead><tbody>"; 
                 for(i=0;i<response.group.length;i++)
                 {
-                    code = code + '<tr><th scope="row">'+(i+1)+'</th><td width="90%"><input type="text" class="form-control" id="groupNameInput" placeholder="'+ response.group[i].name +'"></td><td><option value='+response.group[i].id+'></td><td width="5%"></option><button type="button" class="btn btn-warning editTaskButton" name="'+response.group[i].id+'">edit</button></td><td width="5%"><button type="button" class="btn btn-danger deleteTaskButton" name="'+response.group[i].id+'">delete</button></td></tr>'; 
+                    code = code + '<tr><th scope="row">'+(i+1)+'</th><td width="90%">'+ response.group[i].name +'</td><td><option value='+response.group[i].id+'></td><td width="5%"></option><button type="button" class="btn btn-warning editGroupButton" name="'+response.group[i].id+'">edit</button></td><td width="5%"><button type="button" class="btn btn-danger deleteGroupButton" name="'+response.group[i].id+'">delete</button></td></tr>'; 
                 }
                 code = code + "</tbody>";
                 $("#Groupconfig").html(code);
@@ -62,15 +73,48 @@
             error : function(e){console.log(e);} });
         }
 
-        function viewGroupConfig()
+        function viewGroupList()
         {
             $(".GroupContainer").fadeIn("slow");
         }
             
-        function hideGroupConfig()
+        function hideGroupList()
         {
             $(".GroupContainer").hide();
         }
+      
+      function deleteGroup(id)
+      {
+        $.ajax({
+        headers:{Accept:'application/json'}, 
+        contentType:'application/json',
+        type:'DELETE',
+        url: '/JumuManagerWebGIT/api/groups/'+id,
+        success: function(response)
+        {
+            $(".calloutDELETE").fadeIn("slow");
+            $(".calloutDELETE").delay(3000).fadeOut("fast");
+            loadGroupList();
+        },
+        error : function(e){console.log(e);}
+        });
+      }
+      
+      function viewMemberList()
+      {
+        $.ajax({ headers:{Accept:'application/json'}, type:'GET', url: "/JumuManagerWebGIT/api/group/user", 
+            success: function(response)
+            {
+                var code ="<thead><tr><th>#</th><th>Groupname</th></tr></thead><tbody>"; 
+                for(i=0;i<response.group.length;i++)
+                {
+                    code = code + '<tr><th scope="row">'+(i+1)+'</th><td width="90%">'+ response.group[i].name +'</td><td><option value='+response.group[i].id+'></td><td width="5%"></option><button type="button" class="btn btn-warning editGroupButton" name="'+response.group[i].id+'">edit</button></td><td width="5%"><button type="button" class="btn btn-danger deleteGroupButton" name="'+response.group[i].id+'">delete</button></td></tr>'; 
+                }
+                code = code + "</tbody>";
+                $("#Groupconfig").html(code);
+            },
+            error : function(e){console.log(e);} });
+      }
               
               
     </script>
@@ -90,7 +134,7 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
+            <li class="active"><a href="./dashboard.jsp">Home</a></li>
             <li><a href="#about">About</a></li>
             <li><a href="#contact">Contact</a></li>
             <li class="dropdown">
@@ -120,14 +164,28 @@
       
       <div class="row">
           <div class="col-md-4"><button type="submit" class="btn btn-default" id="GroupConfigButton"><img data-holder-rendered="true"  src="./img/group.png" style="width: 140px; height: 140px;" data-src="holder.js/140x140" class="img-rounded" alt="140x140"><p class="lead">Gruppeneinstellung</p></button></div> 
-        <div class="col-md-4"><button type="submit" class="btn btn-default" id="GroupConfigButton"><img data-holder-rendered="true"  src="./img/group.png" style="width: 140px; height: 140px;" data-src="holder.js/140x140" class="img-rounded" alt="140x140"><p class="lead">Mitglieder</p></button></div>
+        <div class="col-md-4"><button type="submit" class="btn btn-default" id="MemberButton"><img data-holder-rendered="true"  src="./img/group.png" style="width: 140px; height: 140px;" data-src="holder.js/140x140" class="img-rounded" alt="140x140"><p class="lead">Mitglieder</p></button></div>
         <div class="col-md-4"><button type="submit" class="btn btn-default" id="GroupConfigButton"><img data-holder-rendered="true"  src="./img/group.png" style="width: 140px; height: 140px;" data-src="holder.js/140x140" class="img-rounded" alt="140x140"><p class="lead">Termine</p></button></div>
       </div>
     </div>
       
+    <div class="conatiner" style="display:none">
+      <div class="bs-callout bs-callout-info calloutADD" id="callout-type-b-i-elems" style="display:none">
+            <h4 id="alternate-elements">Hinweis!<a class="anchorjs-link" href="#alternate-elements"><span class="anchorjs-icon"></span></a></h4>
+            <p>Add successful!</p>
+        </div>
+        <div class="bs-callout bs-callout-info calloutUPDATE" id="callout-type-b-i-elems" style="display:none">
+            <h4 id="alternate-elements">Hinweis!<a class="anchorjs-link" href="#alternate-elements"><span class="anchorjs-icon"></span></a></h4>
+            <p>Update successful!</p>
+        </div>
+        <div class="bs-callout bs-callout-info calloutDELETE" id="callout-type-b-i-elems" style="display:none">
+            <h4 id="alternate-elements">Hinweis!<a class="anchorjs-link" href="#alternate-elements"><span class="anchorjs-icon"></span></a></h4>
+            <p>Delete successful!</p>
+        </div>
+    </div>
       
       
-    <div class="container GroupContainer"><div class="page-header"><h1>Groupmanagment</h1></div><table class="table table-hover" id="Groupconfig"></table></div>
+    <div class="container GroupContainer" style="display:none"><div class="page-header"><h1>Groupmanagment</h1></div><table class="table table-hover" id="Groupconfig"></table></div>
       
 
 
