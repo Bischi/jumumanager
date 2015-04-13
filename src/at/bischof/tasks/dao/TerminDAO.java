@@ -1,39 +1,39 @@
 package at.bischof.tasks.dao;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.List;
 
-import at.bischof.tasks.vo.Group;
+import at.bischof.tasks.vo.Termin;
+import at.bischof.tasks.vo.User;
 
-public class GroupDAO {
 
-	public List<Group> getAllGroups() {
+public class TerminDAO {
+
+	public List<Termin> getAllTermins() {
 
 		try {
-			List<Group> gList = new ArrayList<Group>();
+			List<Termin> tList = new ArrayList<Termin>();
 
-			String sql = "SELECT * from tbl_groups";
+			String sql = "Select t.id, t.name, t.date, t.starttime, t.endtime, typ.name, typ.color From tbl_termin t inner join tbl_typ typ ON t.tbl_typ_id = typ.id ;";
 			PreparedStatement ps = getConnection().prepareStatement(sql);
 			ResultSet rs = ps.executeQuery();
 
 			if (!rs.first()) {
-				return gList;
+				return tList;
 			}
 
 			while (!rs.isAfterLast()) {
-				Group g = new Group(rs.getInt(1), rs.getString(2));
-				gList.add(g);
+				Termin t = new Termin(rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getInt(1),rs.getString(6),rs.getString(7));
+				tList.add(t);
 				rs.next();
 			}
 
-			return gList;
+			return tList;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -41,9 +41,9 @@ public class GroupDAO {
 		}
 
 	}
-
-	public Group getGroupById(int mid) {
-		String selectStatement = "SELECT from tbl_groups WHERE id = ?";
+	
+	public Termin getTerminById(int mid) {
+		String selectStatement = "SELECT t.name, t.date, t.starttime, t.endtime, typ.name, typ.color From tbl_termin t inner join tbl_typ typ ON t.tbl_typ_id = typ.id WHERE t.id = ?";
 		PreparedStatement ps;
 
 		try {
@@ -51,8 +51,8 @@ public class GroupDAO {
 			ps.setInt(1, mid);
 
 			ResultSet rs = ps.executeQuery();
-			Group g = new Group(rs.getInt(1), rs.getString(2));
-			return g;
+			Termin t = new Termin(rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getInt(1),rs.getString(6),rs.getString(7));
+			return t;
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -62,15 +62,20 @@ public class GroupDAO {
 
 		}
 	}
+	
+	public void insertTermin(Termin t) {
 
-	public void insertGroup(Group g) {
-
-		String insertStatement = "Insert INTO tbl_groups (name)VALUES(?)";
+		String insertStatement = "Insert INTO tbl_termin (name,date,startdate,enddate,tbl_typ_id)VALUES(?,?,?,?,?)";
 
 		PreparedStatement ps;
 		try {
 			ps = getConnection().prepareStatement(insertStatement);
-			ps.setString(1, g.getName());
+			ps.setString(1, t.getName());
+			ps.setString(2, t.getDate());
+			ps.setString(3, t.getStarttime());
+			ps.setString(4, t.getEndtime());
+			ps.setInt(5, t.getFkTyp());
+			
 
 			ps.execute();
 
@@ -81,17 +86,21 @@ public class GroupDAO {
 		}
 
 	}
+	
+	public void updateTermin(Termin t, int mid) {
 
-	public void updateGroup(Group g, int mid) {
-
-		String updateStatement = "UPDATE tbl_groups SET name = ? WHERE id = ?";
+		String updateStatement = "UPDATE tbl_user SET name = ?, date = ?, starttime = ?, endtime = ?, tbl_typ_id = ? WHERE id = ?";
 		PreparedStatement ps;
 
 		try {
 			ps = getConnection().prepareStatement(updateStatement);
-			ps.setString(1, g.getName());
-			ps.setInt(2, mid);
-
+			ps.setString(1, t.getName());
+			ps.setString(2, t.getDate());
+			ps.setString(3, t.getStarttime());
+			ps.setString(4, t.getEndtime());
+			ps.setInt(5, t.getFkTyp());
+			ps.setInt(6, mid);
+			
 			ps.execute();
 
 		} catch (SQLException e) {
@@ -102,9 +111,9 @@ public class GroupDAO {
 
 	}
 
-	public void deleteGroup(int mid) {
+	public void deleteTermin(int mid) {
 
-		String deleteStatement = "DELETE FROM tbl_groups WHERE id = ?";
+		String deleteStatement = "DELETE FROM tbl_termin WHERE id = ?";
 		PreparedStatement ps;
 
 		try {
@@ -120,7 +129,9 @@ public class GroupDAO {
 		}
 
 	}
-
+	
+	
+	
 	private Connection getConnection() {
 		try {
 			Connection conn;

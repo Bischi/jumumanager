@@ -6,15 +6,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Group {
 
 	private String name; 
-	private int id; 
+	private int _id; 
 	
 	public Group(){
 		
 	}
 	
-	public Group( String name, int id){
+	public Group(int _id, String name){
 		this.name = name;
-		this.id = id;
+		this._id = _id;
 	}
 	
 	public String getName(){
@@ -22,7 +22,7 @@ public class Group {
 	}
 	
 	public int getId(){
-		return id;
+		return _id;
 	}
 	
 	public void setName(String name){
