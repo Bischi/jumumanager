@@ -41,7 +41,6 @@
             updateTask(selectedGroupID, newGroupName);
             });
           $(document).on("click", ".deleteGroupButton",function(){
-            
             //Select name where id = buttonname
             var selectedGroupID =  $(this).attr('name');
             deleteGroup(selectedGroupID);
@@ -65,7 +64,7 @@
                 var code ="<thead><tr><th>#</th><th>Groupname</th></tr></thead><tbody>"; 
                 for(i=0;i<response.group.length;i++)
                 {
-                    code = code + '<tr><th scope="row">'+(i+1)+'</th><td width="90%">'+ response.group[i].name +'</td><td><option value='+response.group[i].id+'></td><td width="5%"></option><button type="button" class="btn btn-warning editGroupButton" name="'+response.group[i].id+'">edit</button></td><td width="5%"><button type="button" class="btn btn-danger deleteGroupButton" name="'+response.group[i].id+'">delete</button></td></tr>'; 
+                    code = code + '<tr><th scope="row">'+(i)+'</th><td width="90%">'+ response.group[i].name +'</td><td><option value='+response.group[i].id+'></td><td width="5%"></option><button type="button" class="btn btn-warning editGroupButton" name="'+response.group[i].id+'">edit</button></td><td width="5%"><button type="button" class="btn btn-danger deleteGroupButton" name="'+response.group[i].id+'">delete</button></td></tr>'; 
                 }
                 code = code + "</tbody>";
                 $("#Groupconfig").html(code);
@@ -82,6 +81,27 @@
         {
             $(".GroupContainer").hide();
         }
+      
+      function updateGroup(id, newGroupName)
+      {
+        var task = {};
+        task.id=id;
+        task.name=newtaskName;
+          $.ajax({
+          headers:{Accept:'application/json'}, 
+          contentType:'application/json',
+          type:'PUT',
+          url: '/JumuManagerWebGIT/api/groups/'+id,
+          data: JSON.stringify(task),
+          success: function(response)
+          {
+              $(".calloutUPDATE").fadeIn("slow");
+              $(".calloutUPDATE").delay(3000).fadeOut("fast");
+              loadAllTasks();
+          },
+          error : function(e){console.log(e);}
+          });
+      }
       
       function deleteGroup(id)
       {
