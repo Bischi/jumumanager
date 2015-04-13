@@ -84,20 +84,20 @@
       
       function updateGroup(id, newGroupName)
       {
-        var task = {};
-        task.id=id;
-        task.name=newtaskName;
+        var group = {};
+        group.id=id;
+        group.name=newGroupName;
           $.ajax({
           headers:{Accept:'application/json'}, 
           contentType:'application/json',
           type:'PUT',
           url: '/JumuManagerWebGIT/api/groups/'+id,
-          data: JSON.stringify(task),
+          data: JSON.stringify(group),
           success: function(response)
           {
               $(".calloutUPDATE").fadeIn("slow");
               $(".calloutUPDATE").delay(3000).fadeOut("fast");
-              loadAllTasks();
+              loadGroupList();
           },
           error : function(e){console.log(e);}
           });
