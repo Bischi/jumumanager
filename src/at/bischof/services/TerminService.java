@@ -11,24 +11,23 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 
+import at.bischof.tasks.dao.TerminDAO;
+import at.bischof.tasks.vo.Termin;
 
-import at.bischof.tasks.dao.UserDAO;
-import at.bischof.tasks.vo.User;
+@Path("termine")
+public class TerminService {
 
-@Path("groups/users")
-public class UserService {
-	
 	@GET
-	public List<User> getAllUsers() throws SQLException{
-		UserDAO dao = new UserDAO();
-		return dao.getAllUsers(); 
+	public List<Termin> getAllTermins() throws SQLException{
+		TerminDAO dao = new TerminDAO();
+		return dao.getAllTermins(); 
 	}
 	
 	@POST
-	public Response insertUser(User u){
-		UserDAO dao = new UserDAO();
+	public Response insertTermin(Termin t){
+		TerminDAO dao = new TerminDAO();
 		try {
-			dao.insertUser(u);
+			dao.insertTermin(t);
 			return Response.ok().build();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -40,10 +39,10 @@ public class UserService {
 	
 	@PUT
 	@Path("/{id}")
-	public Response updateUser(User u, @PathParam("id") int mid){
-		UserDAO dao = new UserDAO();
+	public Response updateTermin(Termin t, @PathParam("id") int mid){
+		TerminDAO dao = new TerminDAO();
 		try {
-			dao.updateUser(u, mid);
+			dao.updateTermin(t, mid);
 			return Response.ok().build();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -55,21 +54,21 @@ public class UserService {
 	
 	@GET
 	@Path("/{id}")
-	public User getUserById(@PathParam("id") int mid){ //id (aus get) wird in mid gespeichert 
-		UserDAO dao = new UserDAO();
-		User u = dao.getUserById(mid);
+	public Termin getTerminById(@PathParam("id") int mid){ //id (aus get) wird in mid gespeichert 
+		TerminDAO dao = new TerminDAO();
+		Termin t = dao.getTerminById(mid);
 		
-		return u;
+		return t;
 		
 	}
 	
 	@DELETE
 	@Path("/{id}")
-	public Response deleteUser(@PathParam("id") int mid){
+	public Response deleteTermin(@PathParam("id") int mid){
 		
 		try {
-			UserDAO dao = new UserDAO();
-			dao.deleteUser(mid);
+			TerminDAO dao = new TerminDAO();
+			dao.deleteTermin(mid);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -78,5 +77,5 @@ public class UserService {
 		return Response.ok().build();
 		
 	}
-
+	
 }
