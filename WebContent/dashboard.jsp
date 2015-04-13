@@ -54,7 +54,7 @@
                 var code ="<thead><tr><th>#</th><th>Groupname</th></tr></thead><tbody>"; 
                 for(i=0;i<response.group.length;i++)
                 {
-                    code = code + '<tr><th scope="row">'+(i+1)+'</th><td width="90%"><input type="text" class="form-control" id="groupNameInput" placeholder="'+ response.group[i].name +'"></td><td><option value='+response.task[i].id+'></td><td width="5%"></option><button type="button" class="btn btn-warning editTaskButton" name="'+response.task[i].id+'">edit</button></td><td width="5%"><button type="button" class="btn btn-danger deleteTaskButton" name="'+response.task[i].id+'">delete</button></td></tr>'; 
+                    code = code + '<tr><th scope="row">'+(i+1)+'</th><td width="90%"><input type="text" class="form-control" id="groupNameInput" placeholder="'+ response.group[i].name +'"></td><td><option value='+response.group[i].id+'></td><td width="5%"></option><button type="button" class="btn btn-warning editTaskButton" name="'+response.group[i].id+'">edit</button></td><td width="5%"><button type="button" class="btn btn-danger deleteTaskButton" name="'+response.group[i].id+'">delete</button></td></tr>'; 
                 }
                 code = code + "</tbody>";
                 $("#Groupconfig").html(code);
