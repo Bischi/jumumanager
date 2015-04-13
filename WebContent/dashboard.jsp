@@ -32,8 +32,9 @@
     <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
     <script type="text/javascript">
 
-        $(document).ready(function(){        
-          $(document).on("click", ".GroupConfigButton",function(){ loadGroupConfig(); viewGroupConfig(); hideMainPage(); });
+        $(document).ready(function(){  
+          $("#GroupConfigButton").click(loadGroupConfig);
+          $(document).on("click", "#GroupConfigButton",function(){ loadGroupConfig(); viewGroupConfig(); hideMainPage(); });
         });
             
             
