@@ -33,12 +33,8 @@
     <script type="text/javascript">
 
         $(document).ready(function(){        
-            $("").click(loadAllTasks);
-            $("").click(hideAllTasks);
-            $("").click(fadeinAddTask);
-            $(".saveTask").click(addTask);
-
-            $(document).on("click", ".GroupConfigButton",function(){ loadGroupConfig(); viewGroupConfig(); hideMainPage(); });
+          $(document).on("click", ".GroupConfigButton",function(){ loadGroupConfig(); viewGroupConfig(); hideMainPage(); });
+        });
             
             
         function hideMainPage()
