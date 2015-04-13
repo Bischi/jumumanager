@@ -47,7 +47,7 @@
             
         function loadGroupConfig()
         {
-            $.ajax({ headers:{Accept:'application/json'}, type:'GET', url: "http://localhost:8080/api/groups", 
+            $.ajax({ headers:{Accept:'application/json'}, type:'GET', url: "http://localhost:8080/JumuManagerWebGIT/groups", 
 
             success: function(response)
             {
