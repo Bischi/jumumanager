@@ -42,7 +42,7 @@ public class UserDAO {
 	}
 
 	public User getUserById(int mid) {
-		String selectStatement = "SELECT from tbl_user WHERE id = ?";
+		String selectStatement = "SELECT u.fname, u.lname, u.email, u.passwd, inst.name, grp.name, ri.name From tbl_user u inner join tbl_instrument inst ON u.tbl_instrument_id = inst.id inner join tbl_groups grp ON u.tbl_groups_id = grp.id inner join tbl_rights ri ON u.tbl_rights_id = ri.id; WHERE u.id = ?";
 		PreparedStatement ps;
 
 		try {
@@ -64,12 +64,18 @@ public class UserDAO {
 
 	public void insertUser(User u) {
 
-		String insertStatement = "Insert INTO tbl_user (name)VALUES(?)";
+		String insertStatement = "Insert INTO tbl_user (fname,lname,email,passwd,tbl_instrument_id,tbl_groups_id,tbl_rights_id)VALUES(?,?,?,?,?,?,?)";
 
 		PreparedStatement ps;
 		try {
 			ps = getConnection().prepareStatement(insertStatement);
 			ps.setString(1, u.getFname());
+			ps.setString(2, u.getLname());
+			ps.setString(3, u.getEmail());
+			ps.setString(4, u.getPassword());
+			ps.setInt(5, u.getFk_instrument_id());
+			ps.setInt(6, u.getFk_groups_id());
+			ps.setInt(7, u.getFk_rights_id());
 
 			ps.execute();
 
@@ -81,15 +87,19 @@ public class UserDAO {
 
 	}
 
-	public void updateUser(User u) {
+	public void updateUser(User u, int mid) {
 
-		String updateStatement = "UPDATE tbl_user SET name = ? WHERE id = ?";
+		String updateStatement = "UPDATE tbl_user SET fname = ?, lname = ?, email = ?, tbl_instrument_id = ?, tbl_rights_id = ? WHERE id = ?";
 		PreparedStatement ps;
 
 		try {
 			ps = getConnection().prepareStatement(updateStatement);
 			ps.setString(1, u.getFname());
-			ps.setInt(2, u.getId());
+			ps.setString(2, u.getLname());
+			ps.setString(3, u.getEmail());
+			ps.setInt(4, u.getFk_instrument_id());
+			ps.setInt(5, u.getFk_rights_id());
+			ps.setInt(6, mid);
 
 			ps.execute();
 

@@ -82,7 +82,7 @@ public class GroupDAO {
 
 	}
 
-	public void updateGroup(Group g) {
+	public void updateGroup(Group g, int mid) {
 
 		String updateStatement = "UPDATE tbl_groups SET name = ? WHERE id = ?";
 		PreparedStatement ps;
@@ -90,7 +90,7 @@ public class GroupDAO {
 		try {
 			ps = getConnection().prepareStatement(updateStatement);
 			ps.setString(1, g.getName());
-			ps.setInt(2, g.getId());
+			ps.setInt(2, mid);
 
 			ps.execute();
 

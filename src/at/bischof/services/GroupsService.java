@@ -15,7 +15,7 @@ import at.bischof.tasks.dao.GroupDAO;
 import at.bischof.tasks.vo.Group;
 
 
-@Path("groups")
+@Path("api/groups")
 public class GroupsService {
 
 	
@@ -42,10 +42,11 @@ public class GroupsService {
 		}
 		
 		@PUT
-		public Response updateGroup(Group g){
+		@Path("{id}")
+		public Response updateGroup(Group g, @PathParam("id") int mid){
 			GroupDAO dao = new GroupDAO();
 			try {
-				dao.updateGroup(g);
+				dao.updateGroup(g, mid);
 				return Response.ok().build();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
