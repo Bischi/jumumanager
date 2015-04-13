@@ -15,7 +15,7 @@ import at.bischof.tasks.dao.GroupDAO;
 import at.bischof.tasks.vo.Group;
 
 
-@Path("api/groups")
+@Path("groups")
 public class GroupsService {
 
 	
@@ -24,7 +24,9 @@ public class GroupsService {
 		@GET
 		public List<Group> getAllGroups() throws SQLException{
 			GroupDAO dao = new GroupDAO();
-			return dao.getAllGroups(); 
+			return dao.getAllGroups();
+			
+			
 		}
 		
 		@POST

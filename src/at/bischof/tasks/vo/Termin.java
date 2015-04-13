@@ -8,14 +8,17 @@ public class Termin {
 	private String endtime;
 	private int id;
 	private int fk_typ;
+	private String color;
+	private String typName;
 	
-	public Termin(String name, String date, String starttime, String endtime, int id, int fk_typ ){
+	public Termin(String name, String date, String starttime, String endtime, int id, String color, String typName ){
 		this.name = name;
 		this.date = date;
 		this.starttime = starttime;
 		this.endtime = endtime;
 		this.id = id;
-		this.fk_typ = fk_typ;
+		this.color = color;
+		this.typName = typName;
 	}
 	
 	public String getName(){
@@ -40,6 +43,14 @@ public class Termin {
 	
 	public int getFkTyp(){
 		return fk_typ;
+	}
+	
+	public String getColor(){
+		return color;
+	}
+	
+	public String getTypName(){
+		return typName;
 	}
 
 }

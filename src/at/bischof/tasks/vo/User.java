@@ -61,9 +61,7 @@ public class User {
 		return id;
 	}
 	
-	public void setFname(String name){
-		this.fname = fname;
-	}
+	
 	
 	
 }
