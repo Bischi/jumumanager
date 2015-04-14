@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import at.bischof.tasks.vo.Termin;
-import at.bischof.tasks.vo.User;
+
 
 
 public class TerminDAO {

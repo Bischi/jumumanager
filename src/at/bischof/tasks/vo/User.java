@@ -60,6 +60,43 @@ public class User {
 	public int getId(){
 		return id;
 	}
+
+	public void setFname(String fname) {
+		this.fname = fname;
+	}
+
+	public void setLname(String lname) {
+		this.lname = lname;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public void setFk_presence_fk_user(int fk_presence_fk_user) {
+		this.fk_presence_fk_user = fk_presence_fk_user;
+	}
+
+	public void setFk_instrument_id(int fk_instrument_id) {
+		this.fk_instrument_id = fk_instrument_id;
+	}
+
+	public void setFk_groups_id(int fk_groups_id) {
+		this.fk_groups_id = fk_groups_id;
+	}
+
+	public void setFk_rights_id(int fk_rights_id) {
+		this.fk_rights_id = fk_rights_id;
+	}
+	
 	
 	
 	

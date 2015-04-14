@@ -9,6 +9,8 @@ import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import at.bischof.tasks.dao.TerminDAO;
@@ -18,6 +20,7 @@ import at.bischof.tasks.vo.Termin;
 public class TerminService {
 
 	@GET
+	@Produces({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
 	public List<Termin> getAllTermins() throws SQLException{
 		TerminDAO dao = new TerminDAO();
 		return dao.getAllTermins(); 
@@ -54,6 +57,7 @@ public class TerminService {
 	
 	@GET
 	@Path("/{id}")
+	@Produces({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
 	public Termin getTerminById(@PathParam("id") int mid){ //id (aus get) wird in mid gespeichert 
 		TerminDAO dao = new TerminDAO();
 		Termin t = dao.getTerminById(mid);

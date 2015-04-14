@@ -11,9 +11,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 
-import at.bischof.tasks.dao.GroupDAO;
 import at.bischof.tasks.dao.InstrumentDAO;
-import at.bischof.tasks.vo.Group;
 import at.bischof.tasks.vo.Instrument;
 
 

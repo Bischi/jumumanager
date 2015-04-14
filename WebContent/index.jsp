@@ -47,7 +47,7 @@
         headers:{Accept:'application/json'}, 
         contentType:'application/json',
         type:'POST',
-        url: document.URL+"REST_TASKS_TC/login/",
+        url: document.URL+"api/login/",
         data: JSON.stringify(user),
         success: function(response)
         {

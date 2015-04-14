@@ -53,4 +53,42 @@ public class Termin {
 		return typName;
 	}
 
+	public int getFk_typ() {
+		return fk_typ;
+	}
+
+	public void setFk_typ(int fk_typ) {
+		this.fk_typ = fk_typ;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
+	}
+
+	public void setStarttime(String starttime) {
+		this.starttime = starttime;
+	}
+
+	public void setEndtime(String endtime) {
+		this.endtime = endtime;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
+	}
+
+	public void setTypName(String typName) {
+		this.typName = typName;
+	}
+	
+	
+
 }
