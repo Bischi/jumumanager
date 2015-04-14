@@ -1,5 +1,8 @@
 package at.bischof.tasks.vo;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class Termin {
 	
 	private String name;

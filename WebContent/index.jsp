@@ -30,7 +30,9 @@
     <![endif]-->
     
     <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+    <script src="res/jquery.js"></script>
     <script type="text/javascript">
+  
         
 	$(document).ready(function(){        
         $(document).on("click", "#loginButton",function(){
@@ -43,18 +45,25 @@
         var user = {};
         user.name=$("#inputEmail").val();
         user.passwd=$("#inputPassword").val();
+        
         $.ajax({
-        headers:{Accept:'application/json'}, 
-        contentType:'application/json',
-        type:'POST',
-        url: document.URL+"api/login/",
-        data: JSON.stringify(user),
-        success: function(response)
-        {
-            window.location.href="dashboard.jspl"; //SESSION-Cookie in Java muss gesetzt werden 
-        },
-        error : function(e){console.log(e);}
-        });
+			headers : {
+				Accept : 'application/json'
+			},
+			contentType : 'application/json',
+			type : 'POST',
+			url : '/JumuManagerWebGIT/api/logincheck',
+			data : JSON.stringify(user),
+			success : function(response) {
+				window.location.href="dashboard.jsp"; //SESSION-Cookie in Java muss gesetzt werden 
+			},
+			error : function(e) {
+				console.log(e);
+			}
+
+		});
+        
+        
     }
     </script>   
     
@@ -63,7 +72,7 @@
   <body>
       
     <div class="container">
-    <img src="login/logo.png" class="img-responsive center-block" alt="Responsive image">
+    <img src="/img/logo.png" class="img-responsive center-block" alt="Responsive image">
 
       <form class="form-signin" method="post" action="#">
         <h2 class="form-signin-heading">Please sign in</h2>
@@ -76,7 +85,7 @@
             <input value="remember-me" type="checkbox"> Remember me 
           </label>
         </div>
-          <button class="btn btn-lg btn-primary btn-block" id="loginButton" type="button">show tasks</button>
+          <button class="btn btn-lg btn-primary btn-block" id="loginButton" type="button">Login</button>
       </form>
 
     </div> <!-- /container -->
