@@ -38,7 +38,7 @@
             //Select name where id = buttonname
             var selectedGroupID =  $(this).attr('name');
             var newGroupName = prompt("Neuer Gruppenname: ");
-            updateTask(selectedGroupID, newGroupName);
+            updateGroup(selectedGroupID, newGroupName);
             });
           $(document).on("click", ".deleteGroupButton",function(){
             //Select name where id = buttonname
@@ -64,11 +64,11 @@
                 var code ="<thead><tr><th>#</th><th>Groupname</th></tr></thead><tbody>"; 
                 for(i=0;i<response.group.length;i++)
                 {
-                	console.log(i);
-                    code = code + '<tr><th scope="row">'+(i)+'</th><td width="90%">'+ response.group[i].name +'</td><td><option value='+response.group[i].id+'></td><td width="5%"></option><button type="button" class="btn btn-warning editGroupButton" name="'+response.group[i].id+'">edit</button></td><td width="5%"><button type="button" class="btn btn-danger deleteGroupButton" name="'+response.group[i].id+'">delete</button></td></tr>'; 
+                    code = code + '<tr><th scope="row">'+(i+1)+'</th><td width="90%">'+ response.group[i].name +'</td><td><option value='+response.group[i].id+'></td><td width="5%"></option><button type="button" class="btn btn-warning editGroupButton" name="'+response.group[i].id+'">edit</button></td><td width="5%"><button type="button" class="btn btn-danger deleteGroupButton" name="'+response.group[i].id+'">delete</button></td></tr>'; 
+
                 }
                 code = code + "</tbody>";
-                $("#Groupconfig").html(code);
+                $("#Groupconfig").html(codey);
             },
             error : function(e){console.log(e);} });
         }
