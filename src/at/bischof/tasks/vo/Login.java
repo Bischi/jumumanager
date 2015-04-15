@@ -1,9 +1,14 @@
 package at.bischof.tasks.vo;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class Login {
 	
 	private String email;
 	private String passwd;
+	
+	public Login(){}
 	
 	public Login(String email, String passwd){
 		this.email = email;
