@@ -42,8 +42,8 @@
 
 	function loginUser() {
 		var user = {};
-		user.name = $("#inputEmail").val();
-		user.passwd = $("#inputPassword").val();
+		user.name = $('#inputmail').val();
+		user.passwd = $('#inputPassword').val();
 
 		$.ajax({
 			headers : {
@@ -71,17 +71,16 @@
 <body>
 
 	<div class="container">
-		<img src="/img/logo.png" class="img-responsive center-block"
+		<img src="img/logo.png" class="img-responsive center-block"
 			alt="Responsive image">
 
 		<form class="form-signin" method="post" action="#">
 			<h2 class="form-signin-heading">Please sign in</h2>
-			<label for="inputEmail" class="sr-only">Email address</label> <input
-				id="inputEmail" class="form-control" placeholder="Email address"
-				required="" autofocus="" type="email" name="email"> <label
-				for="inputPassword" class="sr-only">Password</label> <input
-				id="inputPassword" class="form-control" placeholder="Password"
-				required="" type="password" name="passwd">
+			<label for="inputEmail" class="sr-only">Email address</label> 
+			<input id="inputmail" class="form-control" placeholder="Email address" required="" autofocus="" type="email" name="email"> 
+			<label for="inputPassword" class="sr-only">Password</label> 
+				
+			<input id="inputPassword" class="form-control" placeholder="Password" required="" type="password" name="passwd">
 			<div class="checkbox">
 				<label> <input value="remember-me" type="checkbox">
 					Remember me
