@@ -62,10 +62,6 @@ public class Termin {
 		return fk_typ;
 	}
 
-	public void setFk_typ(int fk_typ) {
-		this.fk_typ = fk_typ;
-	}
-
 	public void setName(String name) {
 		this.name = name;
 	}
