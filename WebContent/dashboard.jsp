@@ -10,7 +10,7 @@
 <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 <meta name="description" content="">
 <meta name="author" content="">
-<link rel="icon" href="http://getbootstrap.com/favicon.ico">
+<link rel="icon" href="img/note.ico">
 
 <title>JumuManager</title>
 
@@ -215,9 +215,9 @@
 										+ '</td><td> '
 										+ response.user[i].passwd
 										+ '</td><td>'
-										+ response.user[i].iname
+										+ response.user[i].instrument
 										+ '</td><td> '
-										+ response.user[i].gname
+										+ response.user[i].group
 										+ '</td><td><option value='+response.user[i].id+'></td><td width="5%"></option><button type="button" class="btn btn-warning editMemberButton" name="'+response.user[i].id+'">edit</button></td><td width="5%"><button type="button" class="btn btn-danger deleteMemberButton" name="'+response.user[i].id+'">delete</button></td></tr>';
 							}
 						} else {
@@ -231,11 +231,11 @@
 									+ '</td><td> '
 									+ response.user.email
 									+ '</td><td> '
-									+ response.user.passwd
+									+ response.user.fk_instrument_id
 									+ '</td><td width="90%"> '
-									+ response.user.iname
+									+ response.user.fk_groups_id
 									+ '</td><td> '
-									+ response.user.gname
+									+ response.user.password
 									+ '</td><td><option value='+response.user.id+'></td><td width="5%"></option><button type="button" class="btn btn-warning editMemberButton" name="'+response.user.id+'">edit</button></td><td width="5%"><button type="button" class="btn btn-danger deleteMemberButton" name="'+response.user.id+'">delete</button></td></tr>';
 						}
 
@@ -310,23 +310,34 @@
 					url : "/JumuManagerWebGIT/api/termine",
 					success : function(response) {
 						var code = "<thead><tr><th>#</th><th>Bezeichnung</th><th>Typ</th><th>Datum</th><th>Startzeit</th><th>Endzeit</th></tr></thead><tbody>";
-						if (response.group.length !== undefined) {
-							for (var i = 0; i < response.group.length; i++) {
+						if (response.termin.length !== undefined) {
+							for (var i = 0; i < response.termin.length; i++) {
 								code = code
 										+ '<tr><th scope="row">'
 										+ (i + 1)
 										+ '</th><td width="90%">'
-										+ response.group[i].name
-										+ '</td><td><option value='+response.group[i].id+'></td><td width="5%"></option><button type="button" class="btn btn-warning editGroupButton" name="'+response.group[i].id+'">edit</button></td><td width="5%"><button type="button" class="btn btn-danger deleteGroupButton" name="'+response.group[i].id+'">delete</button></td></tr>';
+										+ response.termin[i].name
+										+ '</td><td><option value='+response.termin[i].id+'></td><td width="5%"></option><button type="button" class="btn btn-warning editGroupButton" name="'+response.termin[i].id+'">edit</button></td><td width="5%"><button type="button" class="btn btn-danger deleteGroupButton" name="'+response.termin[i].id+'">delete</button></td></tr>';
+										
+								
 							}
 						} else {
 							code = code
 									+ '<tr><th scope="row">'
-									+ (1)
-									+ '</th><td width="90%">'
-									+ response.group.name
-									+ '</td><td><option value='+response.group.id+'></td><td width="5%"></option><button type="button" class="btn btn-warning editGroupButton" name="'+response.group.id+'">edit</button></td><td width="5%"><button type="button" class="btn btn-danger deleteGroupButton" name="'+response.group.id+'">delete</button></td></tr>';
-
+									+ 1
+									+ '</th><td>'
+									+ response.termin.name
+									+ '</td><td>'
+									+ response.termin.typName
+									+ '</td><td>'
+									+ response.termin.date
+									+ '</td><td>'
+									+ response.termin.starttime
+									+ '</td><td>'
+									+ response.termin.endtime
+									+ '</td><td><option value='+response.termin.id+'></td><td width="5%"></option><button type="button" class="btn btn-warning editGroupButton" name="'+response.termin.id+'">edit</button></td><td width="5%"><button type="button" class="btn btn-danger deleteGroupButton" name="'+response.termin.id+'">delete</button></td></tr>';
+									
+									
 						}
 						code = code + "</tbody>";
 						$("#Terminconfig").html(code);
@@ -354,26 +365,15 @@
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#">Project name</a>
+				<a class="navbar-brand" href="#">JumuManager</a>
 			</div>
 			<div id="navbar" class="collapse navbar-collapse">
 				<ul class="nav navbar-nav">
 					<li class="active"><a href="./dashboard.jsp">Home</a></li>
 					<li><a href="#about">About</a></li>
 					<li><a href="#contact">Contact</a></li>
-					<li class="dropdown"><a href="#" class="dropdown-toggle"
-						data-toggle="dropdown" role="button" aria-expanded="false">Dropdown
-							<span class="caret"></span>
-					</a>
-						<ul class="dropdown-menu" role="menu">
-							<li><a href="#">Action</a></li>
-							<li><a href="#">Another action</a></li>
-							<li><a href="#">Something else here</a></li>
-							<li class="divider"></li>
-							<li class="dropdown-header">Nav header</li>
-							<li><a href="#">Separated link</a></li>
-							<li><a href="#">One more separated link</a></li>
-						</ul></li>
+					<li><a href="#logout">Logout</a></li>
+					
 				</ul>
 			</div>
 			<!--/.nav-collapse -->
@@ -384,14 +384,10 @@
 
 	<div style="margin-top: 50px" class="container mainpage">
 		<div class="page-header">
-			<h1>GROUP NAME</h1>
+			<h1>DASHBOARD</h1>
 		</div>
 		<p class="lead">
-			JUMUMANAGER
-			<code>padding-top: 60px;</code>
-			on the
-			<code>body &gt; .container</code>
-			.
+			
 		</p>
 
 
@@ -476,7 +472,7 @@
 		<div class="page-header">
 			<h1>Terminmanagement</h1>
 		</div>
-		<table class="table table-hover" id="Terminonfig"></table>
+		<table class="table table-hover" id="Terminconfig"></table>
 	</div>
 
 	<!-- Bootstrap core JavaScript

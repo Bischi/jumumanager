@@ -19,7 +19,7 @@ public class TerminDAO {
 		try {
 			List<Termin> tList = new ArrayList<Termin>();
 
-			String sql = "Select t.id, t.name, t.date, t.starttime, t.endtime, typ.name, typ.color From tbl_termin t inner join tbl_typ typ ON t.tbl_typ_id = typ.id ;";
+			String sql = "Select t.id, t.name, t.date, t.starttime, t.endtime, typ.name, typ.color From tbl_termin t inner join tbl_typ typ ON t.tbl_typ_id = typ.id ";
 			PreparedStatement ps = getConnection().prepareStatement(sql);
 			ResultSet rs = ps.executeQuery();
 
@@ -28,7 +28,7 @@ public class TerminDAO {
 			}
 
 			while (!rs.isAfterLast()) {
-				Termin t = new Termin(rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getInt(1),rs.getString(6),rs.getString(7));
+				Termin t = new Termin(rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getInt(1),rs.getString(7),rs.getString(6));
 				tList.add(t);
 				rs.next();
 			}
@@ -51,7 +51,7 @@ public class TerminDAO {
 			ps.setInt(1, mid);
 
 			ResultSet rs = ps.executeQuery();
-			Termin t = new Termin(rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getInt(1),rs.getString(6),rs.getString(7));
+			Termin t = new Termin(rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getInt(1),rs.getString(7),rs.getString(6));
 			return t;
 
 		} catch (SQLException e) {

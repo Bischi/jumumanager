@@ -25,7 +25,6 @@ public class Termin {
 	}
 	public Termin(){}
 	
-	public Termin(){}
 	
 	public String getName(){
 		return name;
