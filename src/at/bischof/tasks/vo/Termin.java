@@ -23,6 +23,7 @@ public class Termin {
 		this.color = color;
 		this.typName = typName;
 	}
+	public Termin(){}
 	
 	public Termin(){}
 	

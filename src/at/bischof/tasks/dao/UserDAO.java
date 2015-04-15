@@ -17,7 +17,7 @@ public class UserDAO {
 		try {
 			List<User> uList = new ArrayList<User>();
 
-			String sql = "Select u.id, u.fname, u.lname, u.email, u.passwd, inst.name, grp.name, ri.name From tbl_user u inner join tbl_instrument inst ON u.tbl_instrument_id = inst.id inner join tbl_groups grp ON u.tbl_groups_id = grp.id inner join tbl_rights ri ON u.tbl_rights_id = ri.id;";
+			String sql = "Select u.id, u.fname, u.lname, u.email, u.passwd, inst.name, grp.name, ri.name From tbl_user u inner join tbl_instrument inst ON u.tbl_instrument_id = inst.id inner join tbl_groups grp ON u.tbl_groups_id = grp.id inner join tbl_rights ri ON u.tbl_rights_id = ri.id";
 			PreparedStatement ps = getConnection().prepareStatement(sql);
 			ResultSet rs = ps.executeQuery();
 
@@ -26,7 +26,7 @@ public class UserDAO {
 			}
 
 			while (!rs.isAfterLast()) {
-				User u = new User(rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getInt(1));
+				User u = new User(rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getInt(1),rs.getString(6),rs.getString(7),rs.getString(8));
 				uList.add(u);
 				rs.next();
 			}
@@ -49,7 +49,7 @@ public class UserDAO {
 			ps.setInt(1, mid);
 
 			ResultSet rs = ps.executeQuery();
-			User u = new User(rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getInt(1));
+			User u = new User(rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getInt(1),rs.getString(6),rs.getString(7),rs.getString(8));
 			return u;
 
 		} catch (SQLException e) {
@@ -72,9 +72,9 @@ public class UserDAO {
 			ps.setString(2, u.getLname());
 			ps.setString(3, u.getEmail());
 			ps.setString(4, u.getPassword());
-			ps.setInt(5, u.getFk_instrument_id());
-			ps.setInt(6, u.getFk_groups_id());
-			ps.setInt(7, u.getFk_rights_id());
+			ps.setString(5, u.getFk_instrument_id());
+			ps.setString(6, u.getFk_groups_id());
+			ps.setString(7, u.getFk_rights_id());
 
 			ps.execute();
 
@@ -96,8 +96,8 @@ public class UserDAO {
 			ps.setString(1, u.getFname());
 			ps.setString(2, u.getLname());
 			ps.setString(3, u.getEmail());
-			ps.setInt(4, u.getFk_instrument_id());
-			ps.setInt(5, u.getFk_rights_id());
+			ps.setString(4, u.getFk_instrument_id());
+			ps.setString(5, u.getFk_rights_id());
 			ps.setInt(6, mid);
 
 			ps.execute();
