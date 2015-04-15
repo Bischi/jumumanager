@@ -16,7 +16,7 @@ import javax.ws.rs.core.Response;
 import at.bischof.tasks.dao.UserDAO;
 import at.bischof.tasks.vo.User;
 
-@Path("groups/users")
+@Path("users")
 public class UserService {
 	
 	@GET
