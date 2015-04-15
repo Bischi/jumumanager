@@ -21,6 +21,8 @@ public class Termin {
 		this.typName = typName;
 	}
 	
+	public Termin(){}
+	
 	public String getName(){
 		return name;
 	}
