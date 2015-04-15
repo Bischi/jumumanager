@@ -32,6 +32,7 @@
 
 <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
 <script src="res/jquery.js"></script>
+<script src="res/sha256.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
 		$(document).on("click", "#loginButton", function() {
@@ -42,22 +43,25 @@
 
 	function loginUser() {
 		var user = {};
-		user.name = $('#inputmail').val();
+		user.email = $('#inputmail').val();
 		user.passwd = $('#inputPassword').val();
+		
+		alert(user.password);
 
 		$.ajax({
-			headers : {
-				Accept : 'application/json'
-			},
 			contentType : 'application/json',
 			type : 'POST',
 			url : '/JumuManagerWebGIT/api/logincheck',
 			data : JSON.stringify(user),
-			success : function(response) {
-				alert();
-				//window.location.href = "dashboard.jsp"; //SESSION-Cookie in Java muss gesetzt werden 
+			success : function() {
+				window.location.href = "dashboard.jsp";
 			},
 			error : function(e) {
+				if (e.status == 200) {
+					window.location.href = "dashboard.jsp";
+					return;
+				}
+				$('#alertLogin').fadeIn('slow').delay(100000).fadeOut("slow");
 				console.log(e);
 			}
 
@@ -76,11 +80,12 @@
 
 		<form class="form-signin" method="post" action="#">
 			<h2 class="form-signin-heading">Please sign in</h2>
-			<label for="inputEmail" class="sr-only">Email address</label> 
-			<input id="inputmail" class="form-control" placeholder="Email address" required="" autofocus="" type="email" name="email"> 
-			<label for="inputPassword" class="sr-only">Password</label> 
-				
-			<input id="inputPassword" class="form-control" placeholder="Password" required="" type="password" name="passwd">
+			<label for="inputEmail" class="sr-only">Email address</label> <input
+				id="inputmail" class="form-control" placeholder="Email address"
+				required="" autofocus="" type="email" name="email"> <label
+				for="inputPassword" class="sr-only">Password</label> <input
+				id="inputPassword" class="form-control" placeholder="Password"
+				required="" type="password" name="passwd">
 			<div class="checkbox">
 				<label> <input value="remember-me" type="checkbox">
 					Remember me
@@ -89,6 +94,11 @@
 			<button class="btn btn-lg btn-primary btn-block" id="loginButton"
 				type="button">Login</button>
 		</form>
+
+		<div id="alertLogin" class="alert alert-danger" role="alert" style="display:none">
+			<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+			<span class="sr-only">Error:</span> Enter a valid email address or/and Password
+		</div>
 
 	</div>
 	<!-- /container -->
