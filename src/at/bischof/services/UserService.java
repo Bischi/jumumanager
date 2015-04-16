@@ -84,7 +84,7 @@ public class UserService {
 	}
 	
 	@GET
-	@Path("/rights")
+	@Path("rights")
 	@Produces({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
 	public List<Right> getRights() throws SQLException{
 		UserDAO dao = new UserDAO();
