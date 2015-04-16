@@ -1,10 +1,9 @@
 package at.bischof.tasks.dao;
 
-import java.io.FileInputStream;
+
 import java.security.MessageDigest;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -14,27 +13,27 @@ public class LoginDAO {
 
 	public boolean checkLogin(Login l) throws SQLException {
 		
-//		try{
-//			String value = l.getEmail();
-//			 
-//			MessageDigest md = MessageDigest.getInstance("SHA-256");
-//			md.update(value.getBytes());
-//		 
-//			byte byteData[] = md.digest();
-//		 
-//			//konvertiere byte nach hex
-//			StringBuffer sb = new StringBuffer();
-//			for (int i = 0; i < byteData.length; i++) 
-//			{
-//				sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
-//			}
-//		 
-//			l.setPasswd(sb.toString());
-//		}
-//    	catch(Exception e){
-//    		
-//    	}
-//		System.out.println(l.getPasswd());
+		try{
+			String value = l.getPasswd();
+			 
+			MessageDigest md = MessageDigest.getInstance("SHA-256");
+			md.update(value.getBytes());
+		 
+			byte byteData[] = md.digest();
+		 
+			//konvertiere byte nach hex
+			StringBuffer sb = new StringBuffer();
+			for (int i = 0; i < byteData.length; i++) 
+			{
+				sb.append(Integer.toString(byteData[i]));
+			}
+			l.setPasswd(sb.toString());
+			
+		}
+    	catch(Exception e){
+    		
+    	}
+		
 		
 		
 		
@@ -58,7 +57,7 @@ public class LoginDAO {
 			Class.forName("com.mysql.jdbc.Driver");
 			conn = DriverManager
 					.getConnection("jdbc:mysql://localhost/jumumanager?"
-							+ "user=root&password=");
+							+ "user=root&password=root123");
 			return conn;
 			// Do something with the Connection
 		} catch (SQLException ex) {

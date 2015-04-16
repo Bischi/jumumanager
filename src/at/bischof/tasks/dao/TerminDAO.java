@@ -138,7 +138,7 @@ public class TerminDAO {
 			Class.forName("com.mysql.jdbc.Driver");
 			conn = DriverManager
 					.getConnection("jdbc:mysql://localhost/jumumanager?"
-							+ "user=root&password=");
+							+ "user=root&password=root123");
 			return conn;
 			// Do something with the Connection
 		} catch (SQLException ex) {

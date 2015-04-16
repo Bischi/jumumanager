@@ -39,6 +39,12 @@
 
 			loginUser();
 		});
+		
+		$(document).keydown(function (e) {
+			  if (e.keyCode == 13) {
+			    loginUser();
+			  }
+			});
 	});
 
 	function loginUser() {
@@ -46,8 +52,6 @@
 		user.email = $('#inputmail').val();
 		user.passwd = $('#inputPassword').val();
 		
-		alert(user.password);
-
 		$.ajax({
 			contentType : 'application/json',
 			type : 'POST',
@@ -61,7 +65,7 @@
 					window.location.href = "dashboard.jsp";
 					return;
 				}
-				$('#alertLogin').fadeIn('slow').delay(100000).fadeOut("slow");
+				$('#alertLogin').fadeIn('slow').delay(10000).fadeOut("slow");
 				console.log(e);
 			}
 
@@ -97,7 +101,7 @@
 
 		<div id="alertLogin" class="alert alert-danger" role="alert" style="display:none">
 			<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-			<span class="sr-only">Error:</span> Enter a valid email address or/and Password
+			<span class="sr-only">Error:</span> Enter a valid email address or/and password
 		</div>
 
 	</div>

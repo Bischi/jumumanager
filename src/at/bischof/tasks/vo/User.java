@@ -14,9 +14,10 @@ public class User {
 	private String instrument;
 	private String group;
 	private String rights;
+	private String token;
 	
 		
-	public User( String fame, String lname, String email, String password, int id, String instrument, String group, String rights){
+	public User( String fame, String lname, String email, String password, int id, String instrument, String group, String rights, String token){
 		this.fname = fame;
 		this.lname = lname;
 		this.email = email;
@@ -25,11 +26,20 @@ public class User {
 		this.instrument = instrument;
 		this.group = group;
 		this.rights = rights;
+		this.token = token;
 		
 		
 		
 	}
 	
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
+
 	public User(){}
 	
 	public String getFname(){
