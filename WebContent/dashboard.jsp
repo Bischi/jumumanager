@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
 <head>
@@ -10,9 +9,9 @@
 <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 <meta name="description" content="">
 <meta name="author" content="">
-<link rel="icon" href="http://getbootstrap.com/favicon.ico">
+<link rel="icon" href="img/note.ico">
 
-<title>Sticky Footer Navbar Template for Bootstrap</title>
+<title>JumuManager</title>
 
 <!-- Bootstrap core CSS -->
 <link href="./bootstrap/bootstrap.css" rel="stylesheet">
@@ -30,23 +29,23 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <!-- <link rel="icon" href="http://getbootstrap.com/favicon.ico"> -->
+<meta name="description" content="">
+<meta name="author" content="">
+<!-- <link rel="icon" href="http://getbootstrap.com/favicon.ico"> -->
 
-    <title>JumuManager</title>
+<title>JumuManager</title>
 
-    <!-- Bootstrap core CSS -->
-    <link href="./bootstrap/bootstrap.css" rel="stylesheet">
+<!-- Bootstrap core CSS -->
+<link href="./bootstrap/bootstrap.css" rel="stylesheet">
 
-    <!-- Custom styles for this template -->
-    <link href="./bootstrap/bootstrap.css" rel="stylesheet">
+<!-- Custom styles for this template -->
+<link href="./bootstrap/bootstrap.css" rel="stylesheet">
 
-    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-    <script src="bootstrap/ie-emulation-modes-warning.js"></script>
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
+<!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+<!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+<script src="bootstrap/ie-emulation-modes-warning.js"></script>
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
@@ -54,46 +53,64 @@
 
 <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
 <script type="text/javascript">
-	$(document).ready(function() {
-		$(document).on("click", "#GroupButton", function() {
-			loadGroupList();
-			viewGroupList();
-			hideMainPage();
-		});
-		$(document).on("click", ".editGroupButton", function() {
-			var selectedGroupID = $(this).attr('name');
-			var newGroupName = prompt("Neuer Gruppenname: ");
-			updateGroup(selectedGroupID, newGroupName);
-		});
-		$(document).on("click", ".deleteGroupButton", function() {
-			var selectedGroupID = $(this).attr('name');
-			deleteGroup(selectedGroupID);
-		});
-		$(document).on("click", "#MemberButton", function() {
-			loadMemberList();
-			viewMemberList();
-			hideMainPage();
-		});
-    $(document).on("click", ".editMemberButton", function() {
-			var selectedMemberID = $(this).attr('name');
-      editMemberdata();
-			updateMember(selectedMemberID, fname, lname, email, passwd, instrument, group); //Update of Userdata
-		});
-    $(document).on("click", ".deleteMemberButton", function() {
-			var selectedMemberID = $(this).attr('name');
-			deleteMember(selectedMemberID);
-		});
-		$(document).on("click", "#TerminButton", function() {
-			loadTerminList();
-			viewTerminList();
-			hideMainPage();
-		});
+	$(document).ready(
+			function() {
+				$(document).on("click", "#GroupButton", function() {
+					loadGroupList();
+					viewGroupList();
+					hideMainPage();
+				});
+				$(document).on("click", ".editGroupButton", function() {
+					var selectedGroupID = $(this).attr('name');
+					var newGroupName = prompt("Neuer Gruppenname: ");
+					updateGroup(selectedGroupID, newGroupName);
+				});
+				$(document).on("click", ".deleteGroupButton", function() {
+					var selectedGroupID = $(this).attr('name');
+					deleteGroup(selectedGroupID);
+				});
+				$(document).on("click", "#MemberButton", function() {
+					loadMemberList();
+					viewMemberList();
+					hideMainPage();
+				});
+				$(document).on("click",	".editMemberButton", function() {
+							var selectedMemberID = $(this).attr('name');
+							editMemberdata();
+							updateMember(selectedMemberID, fname, lname, email,
+									passwd, instrument, group); //Update of Userdata
+						});
+				$(document).on("click", ".deleteMemberButton", function() {
+					var selectedMemberID = $(this).attr('name');
+					deleteMember(selectedMemberID);
+				});
+				$(document).on("click", "#TerminButton", function() {
+					loadTerminList();
+					viewTerminList();
+					hideMainPage();
+				});
+        $(document).on("click", "#addMemberButton", function() {
+          hideMemberList();
+          getInstrumentList();
+          fillGroupSelect(); // Selection button for selecting group
+          viewMemberEditContainer();
+					hideMainPage(); 
+				});
+        $(document).on("click", "#saveMemberButton", function() {
+          addMember();
+          loadMemberList();
+          //hideMemberEditConfig();
+          //viewMemberList();
+				});
 
-	});
+
+			});
 
 	function hideMainPage() {
 		$(".mainpage").hide();
 	}
+  
+  
 	//Groupmanagement
 
 	function loadGroupList() {
@@ -110,7 +127,12 @@
 						if (response.group.length !== undefined) {
 
 							for (var i = 0; i < response.group.length; i++) {
-								code = code	+ '<tr><th scope="row">'+(i + 1)+'</th><td width="90%">'+response.group[i].name+'</td><td><option value='+response.group[i].id+'></td><td width="5%"></option><button type="button" class="btn btn-warning editGroupButton" name="'+response.group[i].id+'">edit</button></td><td width="5%"><button type="button" class="btn btn-danger deleteGroupButton" name="'+response.group[i].id+'">delete</button></td></tr>';
+								code = code
+										+ '<tr><th scope="row">'
+										+ (i + 1)
+										+ '</th><td width="90%">'
+										+ response.group[i].name
+										+ '</td><td><option value='+response.group[i].id+'></td><td width="5%"></option><button type="button" class="btn btn-warning editGroupButton" name="'+response.group[i].id+'">edit</button></td><td width="5%"><button type="button" class="btn btn-danger deleteGroupButton" name="'+response.group[i].id+'">delete</button></td></tr>';
 							}
 						} else {
 							code = code
@@ -191,12 +213,38 @@
 					success : function(response) {
 						var code = "<thead><tr><th></th><th>Vorname</th><th>Nachname</th><th>email</th><th>Instrument</th><th>Gruppe</th></tr></thead><tbody>";
 						if (response.user.length !== undefined) {
-                
+
 							for (var i = 0; i < response.user.length; i++) {
-								code = code	+ '<tr><th scope="row">'+(i + 1)+'</th><td>'+response.user[i].fname+'</td><td> '+response.user[i].lname+'</td><td> '+response.user[i].email+'</td><td> '+response.user[i].passwd+'</td><td>'+response.user[i].iname+'</td><td> '+response.user[i].gname+'</td><td><option value='+response.user[i].id+'></td><td width="5%"></option><button type="button" class="btn btn-warning editMemberButton" name="'+response.user[i].id+'">edit</button></td><td width="5%"><button type="button" class="btn btn-danger deleteMemberButton" name="'+response.user[i].id+'">delete</button></td></tr>';
+								code = code
+										+ '<tr><th scope="row">'
+										+ (i + 1)
+										+ '</th><td>'
+										+ response.user[i].fname
+										+ '</td><td> '
+										+ response.user[i].lname
+										+ '</td><td> '
+										+ response.user[i].email
+										+ '</td><td>'
+										+ response.user[i].fk_instrument_id
+										+ '</td><td> '
+										+ response.user[i].fk_groups_id
+										+ '</td><td><option value='+response.user[i].id+'></td><td width="5%"></option><button type="button" class="btn btn-warning editMemberButton" name="'+response.user[i].id+'">edit</button></td><td width="5%"><button type="button" class="btn btn-danger deleteMemberButton" name="'+response.user[i].id+'">delete</button></td></tr>';
 							}
 						} else {
-							code = code	+ '<tr><th scope="row">'+1+'</th><td> '+response.user.fname+'</td><td> '+response.user.lname+'</td><td> '+response.user.email+'</td><td> '+response.user.passwd+'</td><td width="90%"> '+response.user.iname+'</td><td> '+response.user.gname+'</td><td><option value='+response.user.id+'></td><td width="5%"></option><button type="button" class="btn btn-warning editMemberButton" name="'+response.user.id+'">edit</button></td><td width="5%"><button type="button" class="btn btn-danger deleteMemberButton" name="'+response.user.id+'">delete</button></td></tr>';
+							code = code
+									+ '<tr><th scope="row">'
+									+ 1
+									+ '</th><td> '
+									+ response.user.fname
+									+ '</td><td> '
+									+ response.user.lname
+									+ '</td><td> '
+									+ response.user.email
+									+ '</td><td> '
+									+ response.user.fk_instrument_id
+									+ '</td><td width="90%"> '
+									+ response.user.fk_groups_id
+									+ '</td><td><option value='+response.user.id+'></td><td width="5%"></option><button type="button" class="btn btn-warning editMemberButton" name="'+response.user.id+'">edit</button></td><td width="5%"><button type="button" class="btn btn-danger deleteMemberButton" name="'+response.user.id+'">delete</button></td></tr>';
 						}
 
 						code = code + "</tbody>";
@@ -207,10 +255,51 @@
 					}
 				});
 	}
+  
+  function addMember()
+  {
+    var user = {};
+    user.fname=$("#fnameInput").val();
+    user.lname=$("#lnameInput").val();
+    user.email=$("#emailInput").val();
+    user.passwd=$("#passwdInput").val();
+    user.fk_instrument_id=$("#instrumentSelect").val();
+    user.fk_groups_id=$("#groupSelect").val();
+    user.fk_rights_id=$("#rightSelect").val();
+    $.ajax({
+    headers:{Accept:'application/json'}, 
+    contentType:'application/json',
+    type:'POST',
+    url: "/JumuManagerWebGIT/api/users",
+    data: JSON.stringify(user),
+    success: function(response)
+    {
+        $("#fnameInput").val('');
+        $("#lnameInput").val('');
+        $("#emailInput").val('');
+        $("#passwdInput").val('');
+        $(".calloutADD").fadeIn("slow");
+        $(".calloutADD").delay(3000).fadeOut("fast");
+    },
+    error : function(e){console.log(e);}
+    });
+  }
+  
+  
 	function viewMemberList() {
 		$(".MemberContainer").fadeIn("slow");
 	}
-  function updateMember(id, newMemberName) {
+  
+  function hideMemberList() {
+		$(".MemberContainer").hide();
+	}
+  
+  function hideMemberEditConfig()
+  {
+    $("#editMemberContainer").fadeOut("slow");
+  }
+  
+	function updateMember(id, newMemberName) {
 		var group = {};
 		group.id = id;
 		group.name = newGroupName;
@@ -251,10 +340,12 @@
 			}
 		});
 	}
-  function editMemberdata()
-  {
-    var code = '<tr><td>Vorname:</td><td><input type="text" name="fnameInput" class="form-control" placeholder="Vorname"></td>';
-    $("#editMemberConfigData").html(code);
+	function editMemberdata() {
+		
+	}
+  
+  function viewMemberEditContainer() {
+    $(".editMemberContainer").fadeIn("slow");
   }
 
 	function readGroupID() {
@@ -269,21 +360,33 @@
 					type : 'GET',
 					url : "/JumuManagerWebGIT/api/termine",
 					success : function(response) {
-            alert (response);
-            console.log(response.termin.length);
 						var code = "<thead><tr><th>#</th><th>Bezeichnung</th><th>Typ</th><th>Datum</th><th>Startzeit</th><th>Endzeit</th></tr></thead><tbody>";
 						if (response.termin.length !== undefined) {
 							for (var i = 0; i < response.termin.length; i++) {
-								code = code	+ '<tr><th scope="row">'+ (i + 1) + '</th><td>'	+ response.termin[i].name + '</td><td>'	+ response.termin[i].typ + '</td><td>'	+ response.termin[i].date + '</td><td>'	+ response.termin[i].starttime + '</td><td>'	+ response.termin[i].endtime + '</td><td><option value='+response.termin[i].id+'></td><td width="5%"></option><button type="button" class="btn btn-warning editGroupButton" name="'+response.termin[i].id+'">edit</button></td><td width="5%"><button type="button" class="btn btn-danger deleteGroupButton" name="'+response.termin[i].id+'">delete</button></td></tr>';
+								code = code
+										+ '<tr><th scope="row">'
+										+ (i + 1)
+										+ '</th><td width="90%">'
+										+ response.termin[i].name
+										+ '</td><td><option value='+response.termin[i].id+'></td><td width="5%"></option><button type="button" class="btn btn-warning editGroupButton" name="'+response.termin[i].id+'">edit</button></td><td width="5%"><button type="button" class="btn btn-danger deleteGroupButton" name="'+response.termin[i].id+'">delete</button></td></tr>';								
 							}
 						} else {
 							code = code
 									+ '<tr><th scope="row">'
-									+ (1)
-									+ '</th><td width="90%">'
+									+ 1
+									+ '</th><td>'
 									+ response.termin.name
+									+ '</td><td>'
+									+ response.termin.typName
+									+ '</td><td>'
+									+ response.termin.date
+									+ '</td><td>'
+									+ response.termin.starttime
+									+ '</td><td>'
+									+ response.termin.endtime
 									+ '</td><td><option value='+response.termin.id+'></td><td width="5%"></option><button type="button" class="btn btn-warning editGroupButton" name="'+response.termin.id+'">edit</button></td><td width="5%"><button type="button" class="btn btn-danger deleteGroupButton" name="'+response.termin.id+'">delete</button></td></tr>';
-
+									
+									
 						}
 						code = code + "</tbody>";
 						$("#Terminconfig").html(code);
@@ -292,7 +395,78 @@
 						console.log(e);
 					}
 				});
-	}
+  }
+    
+    
+    function getInstrumentList()
+    {
+      $.ajax({
+					headers : {
+						Accept : 'application/json'
+					},
+					type : 'GET',
+					url : "/JumuManagerWebGIT/api/instruments",
+					success : function(response) {
+						var code = "";
+            //Copyright Abfalterer = liebt Phillip
+						if (response.instrument.length !== undefined) {
+							for (var i = 0; i < response.instrument.length; i++) {
+                code = code + '<option value="'+response.instrument[i].id+'">'+response.instrument[i].name+'</option>';
+              }
+            }else {
+							code = code + '<option value="'+response.instrument.id+'">'+response.instrument.name+'</option>';
+            }
+            $("#instrumentSelect").html(code);
+          } 
+      });
+    }
+  
+    function fillGroupSelect() // gruppen bekommen
+    {
+      $.ajax({
+					headers : {
+						Accept : 'application/json'
+					},
+					type : 'GET',
+					url : "/JumuManagerWebGIT/api/groups",
+					success : function(response) {
+						var code = "";
+            //Copyright Abfalterer = liebt Phillip
+						if (response.group.length !== undefined) {
+							for (var i = 0; i < response.group.length; i++) {
+                code = code + '<option value="'+response.group[i].id+'">'+response.group[i].name+'</option>';
+              }
+            }else {
+							code = code + '<option value="'+response.group.id+'">'+response.group.name+'</option>';
+            }
+            $("#groupSelect").html(code);
+          } 
+      });
+    }
+    
+  function getRightList() //Rechte bekommen
+    {
+      $.ajax({
+					headers : {
+						Accept : 'application/json'
+					},
+					type : 'GET',
+					url : "/JumuManagerWebGIT/api/rights",
+					success : function(response) {
+						var code = "";
+            //Copyright Abfalterer = liebt Phillip
+						if (response.instrument.length !== undefined) {
+							for (var i = 0; i < response.instrument.length; i++) {
+                code = code + '<option value="'+response.instrument[i].id+'">'+response.instrument[i].name+'</option>';
+              }
+            }else {
+							code = code + '<option value="'+response.instrument.id+'">'+response.instrument.name+'</option>';
+            }
+            $("#rightSelect").html(code);
+          } 
+      });
+    }
+             
 	function viewTerminList() {
 		$(".TerminContainer").fadeIn("slow");
 	}
@@ -300,60 +474,47 @@
 <body>
 
 	<!-- Fixed navbar -->
-	<nav class="navbar navbar-default navbar-fixed-top">
-	<div class="container">
-		<div class="navbar-header">
-			<button type="button" class="navbar-toggle collapsed"
-				data-toggle="collapse" data-target="#navbar" aria-expanded="false"
-				aria-controls="navbar">
-				<span class="sr-only">Toggle navigation</span> <span
-					class="icon-bar"></span> <span class="icon-bar"></span> <span
-					class="icon-bar"></span>
-			</button>
-			<a class="navbar-brand" href="#">Project name</a>
+	<div class="row">
+		<nav class="navbar navbar-default navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+					aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">JumuManager</a>
+			</div>
+			<div id="navbar" class="collapse navbar-collapse">
+				<ul class="nav navbar-nav">
+					<li class="active"><a href="./dashboard.jsp">Home</a></li>
+					<li><a href="#about">About</a></li>
+					<li><a href="#contact">Contact</a></li>
+					<li><a href="#logout">Logout</a></li>
+					
+				</ul>
+			</div>
+			<!--/.nav-collapse -->
 		</div>
-		<div id="navbar" class="collapse navbar-collapse">
-			<ul class="nav navbar-nav">
-				<li class="active"><a href="./dashboard.jsp">Home</a></li>
-				<li><a href="#about">About</a></li>
-				<li><a href="#contact">Contact</a></li>
-				<li class="dropdown"><a href="#" class="dropdown-toggle"
-					data-toggle="dropdown" role="button" aria-expanded="false">Dropdown
-						<span class="caret"></span>
-				</a>
-					<ul class="dropdown-menu" role="menu">
-						<li><a href="#">Action</a></li>
-						<li><a href="#">Another action</a></li>
-						<li><a href="#">Something else here</a></li>
-						<li class="divider"></li>
-						<li class="dropdown-header">Nav header</li>
-						<li><a href="#">Separated link</a></li>
-						<li><a href="#">One more separated link</a></li>
-					</ul></li>
-			</ul>
-		</div>
-		<!--/.nav-collapse -->
+		</nav>
 	</div>
-	</nav>
-
 	<!-- Begin page content -->
-	<div class="container mainpage">
+
+	<div style="margin-top: 50px" class="container mainpage">
 		<div class="page-header">
-			<h1>GROUP NAME</h1>
+			<h1>DASHBOARD</h1>
 		</div>
 		<p class="lead">
-			JUMUMANAGER
-			<code>padding-top: 60px;</code>
-			on the
-			<code>body &gt; .container</code>
-			.
+			
 		</p>
 
 
 		<div class="row">
 			<div class="col-md-4">
 				<button type="submit" class="btn btn-default" id="GroupButton">
-					<img data-holder-rendered="true" src="./img/group.png"
+					<img data-holder-rendered="true" src="./img/group.svg"
 						style="width: 140px; height: 140px;" data-src="holder.js/140x140"
 						class="img-rounded" alt="140x140">
 					<p class="lead">Gruppeneinstellung</p>
@@ -361,7 +522,7 @@
 			</div>
 			<div class="col-md-4">
 				<button type="submit" class="btn btn-default" id="MemberButton">
-					<img data-holder-rendered="true" src="./img/group.png"
+					<img data-holder-rendered="true" src="./img/members.svg"
 						style="width: 140px; height: 140px;" data-src="holder.js/140x140"
 						class="img-rounded" alt="140x140">
 					<p class="lead">Mitglieder</p>
@@ -369,7 +530,7 @@
 			</div>
 			<div class="col-md-4">
 				<button type="submit" class="btn btn-default" id="TerminButton">
-					<img data-holder-rendered="true" src="./img/group.png"
+					<img data-holder-rendered="true" src="./img/calendar.svg"
 						style="width: 140px; height: 140px;" data-src="holder.js/140x140"
 						class="img-rounded" alt="140x140">
 					<p class="lead">Termine</p>
@@ -404,12 +565,31 @@
 			<p>Delete successful!</p>
 		</div>
 	</div>
-  <div class="container editMemberContainer" style="display: none">
+	<div class="container editMemberContainer" style="display: none">
 		// Membereditansicht
 		<div class="page-header">
-			<h1>Update Userdata</h1>
+			<h1>Userdata</h1>
 		</div>
-		<table class="table table-hover" id="editMemberConfigData"></table>
+		<table class="table table-hover" id="editMemberConfigData">
+      <tr><td><label for="fnameInput">Vorname</label><input type="text" class="form-control" placeholder="Vorname" id="fnameInput" /></td>
+          <td><label for="lnameInput">Nachname</label><input type="text" class="form-control" placeholder="Nachname" id="lnameInput" /></td>
+      </tr>
+      <tr>
+          <td><label for="emailInput">Email</label><input type="email" class="form-control" placeholder="Email" id="emailInput" /></td>
+          <td><label for="passwdInput">Passwort</label><input type="password" class="form-control" placeholder="Password" id="passwdInput" /></td>
+      </tr>
+      <tr> 
+        <td><label for="instrumentSelect">Instrument</label><select id="instrumentSelect" class="form-control"></select></td>
+        <td><label for="groupSelect">Gruppe</label><select id="groupSelect" class="form-control"></select></td>
+      </tr>
+      <tr>
+        <td><label for="rightSelect">Rechte</label><select id="rightSelect" class="form-control"></select></td>
+      </tr>
+      
+    </table>
+    <button type="submit" class="btn btn-default" id="saveMemberButton" style="font-size: 17px;"><img data-holder-rendered="true" src="./img/personadd.svg" style="width: 24px; height: 24px;" data-src="holder.js/140x140" class="img-rounded" alt="30x30">
+					Save
+				</button>
 	</div>
 
 	<div class="container GroupContainer" style="display: none">
@@ -422,7 +602,7 @@
 	<div class="container MemberContainer" style="display: none">
 		// Mitgliederansicht
 		<div class="page-header">
-			<h1>Usermanagement</h1>
+      <h1>Usermanagement</h1> <button type="submit" class="btn btn-primary" id="addMemberButton" style="font-size: 17px;"><img data-holder-rendered="true" src="./img/personadd.svg" style="width: 24px; height: 24px;" data-src="holder.js/140x140" class="img-rounded" alt="50x30">   neuer User</button>
 		</div>
 		<table class="table table-hover" id="Memberconfig"></table>
 	</div>
@@ -431,17 +611,18 @@
 		<div class="page-header">
 			<h1>Terminmanagement</h1>
 		</div>
-		<table class="table table-hover" id="Terminonfig"></table>
+		<table class="table table-hover" id="Terminconfig"></table>
 	</div>
 
-    <!-- Bootstrap core JavaScript
+	<!-- Bootstrap core JavaScript
     ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="res/jquery.js"></script>
-    <script src="bootstrap/js/bootstrap.js"></script>
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="bootstrap/js/ie10-viewport-bug-workaround.js"></script>
-  
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script src="res/jquery.js"></script>
+	<script src="bootstrap/js/bootstrap.js"></script>
+	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+	<script src="bootstrap/js/ie10-viewport-bug-workaround.js"></script>
 
-</body></html>
+
+</body>
+</html>
 
