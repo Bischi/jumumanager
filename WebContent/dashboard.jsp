@@ -262,31 +262,27 @@
 	}
 
 	function loadTerminList() {
-		$
-				.ajax({
+		$.ajax({
 					headers : {
 						Accept : 'application/json'
 					},
 					type : 'GET',
 					url : "/JumuManagerWebGIT/api/termine",
 					success : function(response) {
+            alert (response);
+            console.log(response.termin.length);
 						var code = "<thead><tr><th>#</th><th>Bezeichnung</th><th>Typ</th><th>Datum</th><th>Startzeit</th><th>Endzeit</th></tr></thead><tbody>";
-						if (response.group.length !== undefined) {
-							for (var i = 0; i < response.group.length; i++) {
-								code = code
-										+ '<tr><th scope="row">'
-										+ (i + 1)
-										+ '</th><td width="90%">'
-										+ response.group[i].name
-										+ '</td><td><option value='+response.group[i].id+'></td><td width="5%"></option><button type="button" class="btn btn-warning editGroupButton" name="'+response.group[i].id+'">edit</button></td><td width="5%"><button type="button" class="btn btn-danger deleteGroupButton" name="'+response.group[i].id+'">delete</button></td></tr>';
+						if (response.termin.length !== undefined) {
+							for (var i = 0; i < response.termin.length; i++) {
+								code = code	+ '<tr><th scope="row">'+ (i + 1) + '</th><td>'	+ response.termin[i].name + '</td><td>'	+ response.termin[i].typ + '</td><td>'	+ response.termin[i].date + '</td><td>'	+ response.termin[i].starttime + '</td><td>'	+ response.termin[i].endtime + '</td><td><option value='+response.termin[i].id+'></td><td width="5%"></option><button type="button" class="btn btn-warning editGroupButton" name="'+response.termin[i].id+'">edit</button></td><td width="5%"><button type="button" class="btn btn-danger deleteGroupButton" name="'+response.termin[i].id+'">delete</button></td></tr>';
 							}
 						} else {
 							code = code
 									+ '<tr><th scope="row">'
 									+ (1)
 									+ '</th><td width="90%">'
-									+ response.group.name
-									+ '</td><td><option value='+response.group.id+'></td><td width="5%"></option><button type="button" class="btn btn-warning editGroupButton" name="'+response.group.id+'">edit</button></td><td width="5%"><button type="button" class="btn btn-danger deleteGroupButton" name="'+response.group.id+'">delete</button></td></tr>';
+									+ response.termin.name
+									+ '</td><td><option value='+response.termin.id+'></td><td width="5%"></option><button type="button" class="btn btn-warning editGroupButton" name="'+response.termin.id+'">edit</button></td><td width="5%"><button type="button" class="btn btn-danger deleteGroupButton" name="'+response.termin.id+'">delete</button></td></tr>';
 
 						}
 						code = code + "</tbody>";
