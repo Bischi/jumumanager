@@ -69,14 +69,16 @@ public class UserDAO {
 		String insertStatement = "Insert INTO tbl_user (fname,lname,email,passwd,token,tbl_instrument_id,tbl_groups_id,tbl_rights_id)VALUES(?,?,?,?,?,?,?,?)";
 
 		
-		String token = UUID.randomUUID().toString().toUpperCase() 
-	            + "|" + "userid" + "|";
+		String token = UUID.randomUUID().toString().toUpperCase();
 	     
 		u.setToken(token);
 		
+		System.out.println(u.getToken());
 		try{
 			String value = u.getPassword();
-			 
+			
+			
+			
 			MessageDigest md = MessageDigest.getInstance("SHA-256");
 			md.update(value.getBytes());
 		 
@@ -89,10 +91,10 @@ public class UserDAO {
 				sb.append(Integer.toString(byteData[i]));
 			}
 			u.setPassword(sb.toString());
-			
+			System.out.println(u.getPassword());
 		}
     	catch(Exception e){
-    		
+    		System.out.println(e.getMessage());
     	}
 		
 		PreparedStatement ps;
