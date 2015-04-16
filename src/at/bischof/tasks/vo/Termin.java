@@ -23,8 +23,8 @@ public class Termin {
 		this.color = color;
 		this.typName = typName;
 	}
-	
 	public Termin(){}
+	
 	
 	public String getName(){
 		return name;
@@ -60,10 +60,6 @@ public class Termin {
 
 	public int getFk_typ() {
 		return fk_typ;
-	}
-
-	public void setFk_typ(int fk_typ) {
-		this.fk_typ = fk_typ;
 	}
 
 	public void setName(String name) {

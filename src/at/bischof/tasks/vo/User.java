@@ -11,19 +11,26 @@ public class User {
 	private String password;
 	private int id; 
 	private int fk_presence_fk_user;
-	private int fk_instrument_id;
-	private int fk_groups_id;
-	private int fk_rights_id;
+	private String instrument;
+	private String group;
+	private String rights;
 	
 		
-	public User( String fame, String lname, String email, String password, int id){
+	public User( String fame, String lname, String email, String password, int id, String instrument, String group, String rights){
 		this.fname = fame;
 		this.lname = lname;
 		this.email = email;
 		this.password = password;
 		this.id = id;
+		this.instrument = instrument;
+		this.group = group;
+		this.rights = rights;
+		
+		
 		
 	}
+	
+	public User(){}
 	
 	public String getFname(){
 		return fname;
@@ -45,16 +52,16 @@ public class User {
 		return fk_presence_fk_user;
 	}
 	
-	public int getFk_instrument_id(){
-		return fk_instrument_id;
+	public String getFk_instrument_id(){
+		return instrument;
 	}
 	
-	public int getFk_groups_id(){
-		return fk_groups_id;
+	public String getFk_groups_id(){
+		return group;
 	}
 	
-	public int getFk_rights_id(){
-		return fk_rights_id;
+	public String getFk_rights_id(){
+		return rights;
 	}
 	
 	public int getId(){
@@ -81,20 +88,17 @@ public class User {
 		this.id = id;
 	}
 
-	public void setFk_presence_fk_user(int fk_presence_fk_user) {
-		this.fk_presence_fk_user = fk_presence_fk_user;
+	
+	public void setFk_instrument_id(String fk_instrument_id) {
+		this.instrument = fk_instrument_id;
 	}
 
-	public void setFk_instrument_id(int fk_instrument_id) {
-		this.fk_instrument_id = fk_instrument_id;
+	public void setFk_groups_id(String fk_groups_id) {
+		this.group = fk_groups_id;
 	}
 
-	public void setFk_groups_id(int fk_groups_id) {
-		this.fk_groups_id = fk_groups_id;
-	}
-
-	public void setFk_rights_id(int fk_rights_id) {
-		this.fk_rights_id = fk_rights_id;
+	public void setFk_rights_id(String fk_rights_id) {
+		this.rights = fk_rights_id;
 	}
 	
 	

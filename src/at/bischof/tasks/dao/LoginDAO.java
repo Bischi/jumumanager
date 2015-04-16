@@ -1,5 +1,7 @@
 package at.bischof.tasks.dao;
 
+import java.io.FileInputStream;
+import java.security.MessageDigest;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -9,26 +11,47 @@ import java.sql.SQLException;
 import at.bischof.tasks.vo.Login;
 
 public class LoginDAO {
-	
-	public boolean checkLogin(Login l) throws SQLException{
+
+	public boolean checkLogin(Login l) throws SQLException {
 		
-		String sql = "Select * From tbl_user WHERE email = ? AND passwd = ?";
-		PreparedStatement ps; 
+//		try{
+//			String value = l.getEmail();
+//			 
+//			MessageDigest md = MessageDigest.getInstance("SHA-256");
+//			md.update(value.getBytes());
+//		 
+//			byte byteData[] = md.digest();
+//		 
+//			//konvertiere byte nach hex
+//			StringBuffer sb = new StringBuffer();
+//			for (int i = 0; i < byteData.length; i++) 
+//			{
+//				sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
+//			}
+//		 
+//			l.setPasswd(sb.toString());
+//		}
+//    	catch(Exception e){
+//    		
+//    	}
+//		System.out.println(l.getPasswd());
 		
-		ps = getConnection().prepareStatement(sql);
-		ps.setString(1, l.getEmail());
-		ps.setString(2, l.getPasswd());
-		ps.execute();
 		
-		if(ps.execute()==true){
 		
-		return true;
+		String sql = String
+				.format("Select * From tbl_user WHERE email = \"%s\" AND passwd = \"%s\"",
+						l.getEmail(),l.getPasswd());
+		
+
+		ResultSet s = getConnection().createStatement().executeQuery(sql);
+
+		while (s.next()) {
+			s.getString(1);
 		}
-		else{
-			return false;
-		}
+		return s.first();
+
 	}
-	
+
 	private Connection getConnection() {
 		try {
 			Connection conn;

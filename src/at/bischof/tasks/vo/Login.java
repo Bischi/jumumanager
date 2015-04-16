@@ -7,7 +7,16 @@ public class Login {
 	
 	private String email;
 	private String passwd;
+	private boolean check;
 	
+	public boolean isCheck() {
+		return check;
+	}
+
+	public void setCheck(boolean check) {
+		this.check = check;
+	}
+
 	public Login(){}
 	
 	public Login(String email, String passwd){
