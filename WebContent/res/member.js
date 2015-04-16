@@ -59,7 +59,7 @@ function loadMemberList() {
     user.fname=$("#fnameInput").val();
     user.lname=$("#lnameInput").val();
     user.email=$("#emailInput").val();
-    user.passwd=$("#passwdInput").val();
+    user.password=$("#passwdInput").val();
     user.fk_instrument_id=$("#instrumentSelect").val();
     user.fk_groups_id=$("#groupSelect").val();
     user.fk_rights_id=$("#rightSelect").val();
@@ -77,6 +77,8 @@ function loadMemberList() {
         $("#passwdInput").val('');
         $(".calloutADD").fadeIn("slow");
         $(".calloutADD").delay(3000).fadeOut("fast");
+        loadMemberList()
+        
     },
     error : function(e){console.log(e);}
     });
@@ -120,22 +122,27 @@ function loadMemberList() {
 	}
 
 	function deleteMember(id) {
+		alert(id);
+		
 		$.ajax({
 			headers : {
 				Accept : 'application/json'
 			},
 			contentType : 'application/json',
 			type : 'DELETE',
-			url : '/JumuManagerWebGIT/api/groups/' + id,
+			url : '/JumuManagerWebGIT/api/users/' + id,
 			success : function(response) {
+				loadGroupList();
 				$(".calloutDELETE").fadeIn("slow");
 				$(".calloutDELETE").delay(3000).fadeOut("fast");
-				loadGroupList();
+				
 			},
 			error : function(e) {
 				console.log(e);
 			}
+		
 		});
+		loadGroupList()
 	}
 
  function viewMemberEditContainer() {

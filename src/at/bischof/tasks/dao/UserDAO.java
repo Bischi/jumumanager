@@ -67,7 +67,8 @@ public class UserDAO {
 	public void insertUser(User u) {
 
 		String insertStatement = "Insert INTO tbl_user (fname,lname,email,passwd,token,tbl_instrument_id,tbl_groups_id,tbl_rights_id)VALUES(?,?,?,?,?,?,?,?)";
-
+		
+		System.out.println(u.getPassword());
 		
 		String token = UUID.randomUUID().toString().toUpperCase();
 	     
@@ -91,10 +92,10 @@ public class UserDAO {
 				sb.append(Integer.toString(byteData[i]));
 			}
 			u.setPassword(sb.toString());
-			System.out.println(u.getPassword());
+			
 		}
     	catch(Exception e){
-    		System.out.println(e.getMessage());
+    		
     	}
 		
 		PreparedStatement ps;
@@ -148,6 +149,8 @@ public class UserDAO {
 		String deleteStatement = "DELETE FROM tbl_user WHERE id = ?";
 		PreparedStatement ps;
 
+		System.out.println(mid);
+		
 		try {
 			ps = getConnection().prepareStatement(deleteStatement);
 			ps.setInt(1, mid);
