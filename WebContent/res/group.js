@@ -39,6 +39,26 @@
 				});
 	}
 
+function addGroup()
+  {
+    var group = {};
+    group.name=$("#nameInput").val();
+    $.ajax({
+    headers:{Accept:'application/json'}, 
+    contentType:'application/json',
+    type:'POST',
+    url: "/JumuManagerWebGIT/api/groups",
+    data: JSON.stringify(group),
+    success: function(response)
+    {
+        $("#nameInput").val('');
+        $(".calloutADD").fadeIn("slow");
+        $(".calloutADD").delay(3000).fadeOut("fast");
+    },
+    error : function(e){console.log(e);}
+    });
+  }
+
 	function viewGroupList() {
 		$(".GroupContainer").fadeIn("slow");
 	}
@@ -110,4 +130,12 @@
           } 
       });
     }
-    
+
+ function viewGroupAddContainer() {
+   $(".addGroupContainer").fadeIn("slow");
+  }
+
+function hideGroupAddContainer()
+{
+  $(".addGroupContainer").fadeOut("slow");
+}

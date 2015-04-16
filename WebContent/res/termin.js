@@ -13,7 +13,15 @@ function loadTerminList() {
 										+ '<tr><th scope="row">'
 										+ (i + 1)
 										+ '</th><td width="90%">'
-										+ response.termin[i].name
+										+ response.termin[i].name									
+                    + '</td><td>'
+                    + response.termin[i].typName
+                    + '</td><td>'
+                    + response.termin[i].date
+                    + '</td><td>'
+                    + response.termin[i].starttime
+                    + '</td><td>'
+                    + response.termin[i].endtime
 										+ '</td><td><option value='+response.termin[i].id+'></td><td width="5%"></option><button type="button" class="btn btn-warning editGroupButton" name="'+response.termin[i].id+'">edit</button></td><td width="5%"><button type="button" class="btn btn-danger deleteGroupButton" name="'+response.termin[i].id+'">delete</button></td></tr>';								
 
 							}
@@ -44,7 +52,48 @@ function loadTerminList() {
 				});
   }
 
+function addTermin()
+  {
+    var termin = {};
+    termin.name=$("#TerminNameInput").val();
+    termin.date=$("#dateInput").val();
+    termin.starttime=$("#starttimeInput").val();
+    termin.endtime=$("#endtimeInput").val();
+    termin.tbl_typ_id=$("#typSelect").val();
+    $.ajax({
+    headers:{Accept:'application/json'}, 
+    contentType:'application/json',
+    type:'POST',
+    url: "/JumuManagerWebGIT/api/termine",
+    data: JSON.stringify(termin),
+    success: function(response)
+    {
+        $("#nameInput").val('');
+        $("#dateInput").val('');
+        $("#starttimeInput").val('');
+        $("#endtimeInput").val('');
+        $(".calloutADD").fadeIn("slow");
+        $(".calloutADD").delay(3000).fadeOut("fast");
+    },
+    error : function(e){console.log(e);}
+    });
+  }
+
 
 	function viewTerminList() {
 		$(".TerminContainer").fadeIn("slow");
 	}
+
+  function hideTerminList(){
+    $(".TerminContainer").hide();
+  }
+
+
+ function viewTerminEditContainer() {
+    $(".editTerminContainer").fadeIn("slow");
+  }
+
+function hideTerminEditContainer()
+{
+  $(".editTerminContainer").hide();
+}

@@ -1,6 +1,5 @@
 function loadMemberList() {
-		$
-				.ajax({
+		$.ajax({
 					headers : {
 						Accept : 'application/json'
 					},
@@ -24,7 +23,6 @@ function loadMemberList() {
 										+ response.user[i].fk_instrument_id
 										+ '</td><td> '
 										+ response.user[i].fk_groups_id
-
 										+ '</td><td><option value='+response.user[i].id+'></td><td width="5%"></option><button type="button" class="btn btn-warning editMemberButton" name="'+response.user[i].id+'">edit</button></td><td width="5%"><button type="button" class="btn btn-danger deleteMemberButton" name="'+response.user[i].id+'">delete</button></td></tr>';
 							}
 						} else {
@@ -96,27 +94,32 @@ function loadMemberList() {
     $("#editMemberContainer").fadeOut("slow");
   }
 
-	function updateMember(id, newMemberName) {
-		var group = {};
-		group.id = id;
-		group.name = newGroupName;
-		$.ajax({
-			headers : {
-				Accept : 'application/json'
-			},
-			contentType : 'application/json',
-			type : 'PUT',
-			url : '/JumuManagerWebGIT/api/groups/' + id,
-			data : JSON.stringify(group),
-			success : function(response) {
-				$(".calloutUPDATE").fadeIn("slow");
-				$(".calloutUPDATE").delay(3000).fadeOut("fast");
-				loadGroupList();
-			},
-			error : function(e) {
-				console.log(e);
-			}
-		});
+	function updateMember() {
+		var user = {};
+    user.fname=$("#fnameInput").val();
+    user.lname=$("#lnameInput").val();
+    user.email=$("#emailInput").val();
+    user.passwd=$("#passwdInput").val();
+    user.fk_instrument_id=$("#instrumentSelect").val();
+    user.fk_groups_id=$("#groupSelect").val();
+    user.fk_rights_id=$("#rightSelect").val();
+    $.ajax({
+    headers:{Accept:'application/json'}, 
+    contentType:'application/json',
+    type:'PUT',
+    url: "/JumuManagerWebGIT/api/users/"+id,
+    data: JSON.stringify(user),
+    success: function(response)
+    {
+        $("#fnameInput").val('');
+        $("#lnameInput").val('');
+        $("#emailInput").val('');
+        $("#passwdInput").val('');
+        $(".calloutADD").fadeIn("slow");
+        $(".calloutADD").delay(3000).fadeOut("fast");
+    },
+    error : function(e){console.log(e);}
+    });
 	}
 
 	function deleteMember(id) {

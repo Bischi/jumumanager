@@ -46,6 +46,17 @@
 					viewGroupList();
 					hideMainPage();
 				});
+        $(document).on("click", "#addGroupButton", function() {
+          hideGroupList();
+          viewGroupAddContainer();
+					hideMainPage(); 
+				});
+        $(document).on("click", "#saveGroupButton", function() {
+          addGroup();
+          hideGroupAddContainer();
+          loadGroupList();
+          viewGroupList();
+				});
 				$(document).on("click", ".editGroupButton", function() {
 					var selectedGroupID = $(this).attr('name');
 					var newGroupName = prompt("Neuer Gruppenname: ");
@@ -55,27 +66,18 @@
 					var selectedGroupID = $(this).attr('name');
 					deleteGroup(selectedGroupID);
 				});
+        
+        
+        
+        
 				$(document).on("click", "#MemberButton", function() {
 					loadMemberList();
 					viewMemberList();
 					hideMainPage();
 				});
-				$(document).on("click",	".editMemberButton", function() {
-							var selectedMemberID = $(this).attr('name');
-							editMemberdata();
-							updateMember(selectedMemberID, fname, lname, email,	passwd, instrument, group); //Update of Userdata
-						});
-				$(document).on("click", ".deleteMemberButton", function() {
-					var selectedMemberID = $(this).attr('name');
-					deleteMember(selectedMemberID);
-				});
-				$(document).on("click", "#TerminButton", function() {
-					loadTerminList();
-					viewTerminList();
-					hideMainPage();
-				});
         $(document).on("click", "#addMemberButton", function() {
           hideMemberList();
+          $("#updateMemberButton").hide();
           getInstrumentList();
           getRightList();
           fillGroupSelect(); // Selection button for selecting group
@@ -85,9 +87,42 @@
         $(document).on("click", "#saveMemberButton", function() {
           addMember();
           loadMemberList();
-          //hideMemberEditConfig();
+         //hideMemberEditConfig();
           //viewMemberList();
 				});
+				$(document).on("click",	".editMemberButton", function() {
+							var selectedMemberID = $(this).attr('name');
+							editMemberdata();
+							updateMember(selectedMemberID, fname, lname, email,	passwd, instrument, group); //Update of Userdata
+						});
+				$(document).on("click", ".deleteMemberButton", function() {
+					var selectedMemberID = $(this).attr('name');
+					deleteMember(selectedMemberID);
+				});        
+
+        
+        
+        
+        
+				$(document).on("click", "#TerminButton", function() {
+					loadTerminList();
+					viewTerminList();
+					hideMainPage();
+				});
+        $(document).on("click", "#addTerminButton", function() {
+          hideTerminList();
+          $("#updateTerminButton").hide();
+          getTypList();
+          viewTerminEditContainer();
+					hideMainPage(); 
+				});
+        $(document).on("click", "#saveTerminButton", function() {
+          addTermin();
+          hideTerminEditContainer();
+          loadTerminList();
+          viewTerminList();
+				});
+
 			});
 
 	function hideMainPage() {
@@ -135,7 +170,6 @@
 		<p class="lead">
 			
 		</p>
-
 
 		<div class="row">
 			<div class="col-md-4">
@@ -213,18 +247,52 @@
       </tr>
       
     </table>
-    <button type="submit" class="btn btn-default" id="saveMemberButton" style="font-size: 17px;"><img data-holder-rendered="true" src="./img/personadd.svg" style="width: 24px; height: 24px;" data-src="holder.js/140x140" class="img-rounded" alt="30x30">
-					Save
+    <button type="submit" class="btn btn-default" id="saveMemberButton" style="font-size: 17px;"><img data-holder-rendered="true" src="./img/personadd.svg" style="width: 24px; height: 24px;" data-src="holder.js/140x140" class="img-rounded" alt="30x30">Save</button>
+          <button type="submit" class="btn btn-default" id="updateMemberButton" style="font-size: 17px;"><img data-holder-rendered="true" src="./img/personadd.svg" style="width: 24px; height: 24px;" data-src="holder.js/140x140" class="img-rounded" alt="30x30">Save</button>
+	</div>
+  
+  <div class="container addGroupContainer" style="display: none">
+		// Membereditansicht
+		<div class="page-header">
+			<h1>Groupdata</h1>
+		</div>
+		<table class="table table-hover" id="editGroupConfigData">
+      <tr><td><label for="nameInput">Gruppenname</label><input type="text" class="form-control" placeholder="Gruppenname" id="nameInput" /></td></tr>
+    </table>
+    <button type="submit" class="btn btn-default" id="saveGroupButton" style="font-size: 17px;"><img data-holder-rendered="true" src="./img/personadd.svg" style="width: 24px; height: 24px;" data-src="holder.js/140x140" class="img-rounded" alt="30x30">
 				</button>
+	</div>
+  
+  <div class="container editTerminContainer" style="display: none">
+		// Membereditansicht
+		<div class="page-header">
+			<h1>Userdata</h1>
+		</div>
+		<table class="table table-hover" id="editTerminConfigData">
+      <tr><td><label for="nameInput">Bezeichnung</label><input type="text" class="form-control" placeholder="Bezeichnung" id="TerminNameInput" /></td>
+          <td><label for="dateInput">Datum</label><input type="date" class="form-control" placeholder="12.12.2012" id="dateInput" /></td>
+      </tr>
+      <tr>
+          <td><label for="starttimeInput">Startzeit</label><input type="time" class="form-control" placeholder="12:12" id="starttimeInput" /></td>
+          <td><label for="endtimeInput">Endzeit</label><input type="time" class="form-control" placeholder="13:13" id="endtimeInput" /></td>
+      </tr>
+      <tr> 
+        <td><label for="typSelect">Typ</label><select id="typSelect" class="form-control"></select></td>
+      </tr>
+      
+    </table>
+    <button type="submit" class="btn btn-default" id="saveTerminButton" style="font-size: 17px;"><img data-holder-rendered="true" src="./img/personadd.svg" style="width: 24px; height: 24px;" data-src="holder.js/140x140" class="img-rounded" alt="30x30">Save</button>
+          <button type="submit" class="btn btn-default" id="updateTerminButton" style="font-size: 17px;"><img data-holder-rendered="true" src="./img/personadd.svg" style="width: 24px; height: 24px;" data-src="holder.js/140x140" class="img-rounded" alt="30x30">Save</button>
 	</div>
 
 	<div class="container GroupContainer" style="display: none">
 		// Gruppenansicht
 		<div class="page-header">
-			<h1>Groupmanagment</h1>
+			<h1>Groupmanagment</h1><button type="submit" class="btn btn-primary" id="addGroupButton" style="font-size: 17px;"><img data-holder-rendered="true" src="./img/group.svg" style="width: 24px; height: 24px;" data-src="holder.js/140x140" class="img-rounded" alt="50x30">   neue Gruppe</button>
 		</div>
 		<table class="table table-hover" id="Groupconfig"></table>
 	</div>
+  
 	<div class="container MemberContainer" style="display: none">
 		// Mitgliederansicht
 		<div class="page-header">
@@ -232,10 +300,11 @@
 		</div>
 		<table class="table table-hover" id="Memberconfig"></table>
 	</div>
+  
 	<div class="container TerminContainer" style="display: none">
 		// Mitgliederansicht
 		<div class="page-header">
-			<h1>Terminmanagement</h1>
+			<h1>Terminmanagement</h1><button type="submit" class="btn btn-primary" id="addTerminButton" style="font-size: 17px;"><img data-holder-rendered="true" src="./img/personadd.svg" style="width: 24px; height: 24px;" data-src="holder.js/140x140" class="img-rounded" alt="50x30">   neuer Termin</button>
 		</div>
 		<table class="table table-hover" id="Terminconfig"></table>
 	</div>
