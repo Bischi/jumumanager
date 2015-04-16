@@ -88,3 +88,26 @@
 			}
 		});
 	}
+ function fillGroupSelect() // gruppen bekommen
+    {
+      $.ajax({
+					headers : {
+						Accept : 'application/json'
+					},
+					type : 'GET',
+					url : "/JumuManagerWebGIT/api/groups",
+					success : function(response) {
+						var code = "";
+            //Copyright Abfalterer = liebt Phillip
+						if (response.group.length !== undefined) {
+							for (var i = 0; i < response.group.length; i++) {
+                code = code + '<option value="'+response.group[i].id+'">'+response.group[i].name+'</option>';
+              }
+            }else {
+							code = code + '<option value="'+response.group.id+'">'+response.group.name+'</option>';
+            }
+            $("#groupSelect").html(code);
+          } 
+      });
+    }
+    

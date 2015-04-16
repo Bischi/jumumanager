@@ -31,9 +31,10 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 <meta name="description" content="">
 <meta name="author" content="">
-  <script src="./res/group.js"> </script> // Groupconfig
-  <script src="./res/member.js"> </script> // Memberconfig
-  <script src="./res/termin.js"> </script> // Terminconfig
+  <script src="./res/group.js"> </script>  <!--Groupconfig-->
+  <script src="./res/member.js"> </script> <!--Memberconfig-->
+  <script src="./res/termin.js"> </script> <!--Terminconfig-->
+  <script src="./res/lists.js"> </script> <!--get InstrumentList,... -->
 <!-- <link rel="icon" href="http://getbootstrap.com/favicon.ico"> -->
 
 <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
@@ -93,75 +94,6 @@
 	}
   
     
-    function getInstrumentList()
-    {
-      $.ajax({
-					headers : {
-						Accept : 'application/json'
-					},
-					type : 'GET',
-					url : "/JumuManagerWebGIT/api/instruments",
-					success : function(response) {
-						var code = "";
-            //Copyright Abfalterer = liebt Phillip
-						if (response.instrument.length !== undefined) {
-							for (var i = 0; i < response.instrument.length; i++) {
-                code = code + '<option value="'+response.instrument[i].id+'">'+response.instrument[i].name+'</option>';
-              }
-            }else {
-							code = code + '<option value="'+response.instrument.id+'">'+response.instrument.name+'</option>';
-            }
-            $("#instrumentSelect").html(code);
-          } 
-      });
-    }
-  
-    function fillGroupSelect() // gruppen bekommen
-    {
-      $.ajax({
-					headers : {
-						Accept : 'application/json'
-					},
-					type : 'GET',
-					url : "/JumuManagerWebGIT/api/groups",
-					success : function(response) {
-						var code = "";
-            //Copyright Abfalterer = liebt Phillip
-						if (response.group.length !== undefined) {
-							for (var i = 0; i < response.group.length; i++) {
-                code = code + '<option value="'+response.group[i].id+'">'+response.group[i].name+'</option>';
-              }
-            }else {
-							code = code + '<option value="'+response.group.id+'">'+response.group.name+'</option>';
-            }
-            $("#groupSelect").html(code);
-          } 
-      });
-    }
-    
-  function getRightList() //Rechte bekommen
-    {
-      $.ajax({
-					headers : {
-						Accept : 'application/json'
-					},
-					type : 'GET',
-					url : "/JumuManagerWebGIT/api/rights",
-					success : function(response) {
-						var code = "";
-            //Copyright Abfalterer = liebt Phillip
-						if (response.instrument.length !== undefined) {
-							for (var i = 0; i < response.instrument.length; i++) {
-                code = code + '<option value="'+response.instrument[i].id+'">'+response.instrument[i].name+'</option>';
-              }
-            }else {
-							code = code + '<option value="'+response.instrument.id+'">'+response.instrument.name+'</option>';
-            }
-            $("#rightSelect").html(code);
-          } 
-      });
-    }
-             
 
 </script>
 <body>
