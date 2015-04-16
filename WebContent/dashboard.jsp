@@ -77,6 +77,7 @@
         $(document).on("click", "#addMemberButton", function() {
           hideMemberList();
           getInstrumentList();
+          getRightList();
           fillGroupSelect(); // Selection button for selecting group
           viewMemberEditContainer();
 					hideMainPage(); 
