@@ -1,6 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8" %>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
@@ -32,25 +31,10 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 <meta name="description" content="">
 <meta name="author" content="">
+  <script src="./res/group.js"> </script> // Groupconfig
+  <script src="./res/member.js"> </script> // Memberconfig
+  <script src="./res/termin.js"> </script> // Terminconfig
 <!-- <link rel="icon" href="http://getbootstrap.com/favicon.ico"> -->
-
-<title>JumuManager</title>
-
-<!-- Bootstrap core CSS -->
-<link href="./bootstrap/bootstrap.css" rel="stylesheet">
-
-<!-- Custom styles for this template -->
-<link href="./bootstrap/bootstrap.css" rel="stylesheet">
-
-<!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-<!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-<script src="bootstrap/ie-emulation-modes-warning.js"></script>
-<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-<!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-</head>
 
 <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
 <script type="text/javascript">
@@ -75,14 +59,10 @@
 					viewMemberList();
 					hideMainPage();
 				});
-				$(document).on(
-						"click",
-						".editMemberButton",
-						function() {
+				$(document).on("click",	".editMemberButton", function() {
 							var selectedMemberID = $(this).attr('name');
 							editMemberdata();
-							updateMember(selectedMemberID, fname, lname, email,
-									passwd, instrument, group); //Update of Userdata
+							updateMember(selectedMemberID, fname, lname, email,	passwd, instrument, group); //Update of Userdata
 						});
 				$(document).on("click", ".deleteMemberButton", function() {
 					var selectedMemberID = $(this).attr('name');
@@ -93,263 +73,96 @@
 					viewTerminList();
 					hideMainPage();
 				});
-
+        $(document).on("click", "#addMemberButton", function() {
+          hideMemberList();
+          getInstrumentList();
+          fillGroupSelect(); // Selection button for selecting group
+          viewMemberEditContainer();
+					hideMainPage(); 
+				});
+        $(document).on("click", "#saveMemberButton", function() {
+          addMember();
+          loadMemberList();
+          //hideMemberEditConfig();
+          //viewMemberList();
+				});
 			});
 
 	function hideMainPage() {
 		$(".mainpage").hide();
 	}
-	//Groupmanagement
-
-	function loadGroupList() {
-		$
-				.ajax({
+  
+    
+    function getInstrumentList()
+    {
+      $.ajax({
+					headers : {
+						Accept : 'application/json'
+					},
+					type : 'GET',
+					url : "/JumuManagerWebGIT/api/instruments",
+					success : function(response) {
+						var code = "";
+            //Copyright Abfalterer = liebt Phillip
+						if (response.instrument.length !== undefined) {
+							for (var i = 0; i < response.instrument.length; i++) {
+                code = code + '<option value="'+response.instrument[i].id+'">'+response.instrument[i].name+'</option>';
+              }
+            }else {
+							code = code + '<option value="'+response.instrument.id+'">'+response.instrument.name+'</option>';
+            }
+            $("#instrumentSelect").html(code);
+          } 
+      });
+    }
+  
+    function fillGroupSelect() // gruppen bekommen
+    {
+      $.ajax({
 					headers : {
 						Accept : 'application/json'
 					},
 					type : 'GET',
 					url : "/JumuManagerWebGIT/api/groups",
 					success : function(response) {
-
-						var code = "<thead><tr><th>#</th><th>Groupname</th></tr></thead><tbody>";
+						var code = "";
+            //Copyright Abfalterer = liebt Phillip
 						if (response.group.length !== undefined) {
-
 							for (var i = 0; i < response.group.length; i++) {
-								code = code
-										+ '<tr><th scope="row">'
-										+ (i + 1)
-										+ '</th><td width="90%">'
-										+ response.group[i].name
-										+ '</td><td><option value='+response.group[i].id+'></td><td width="5%"></option><button type="button" class="btn btn-warning editGroupButton" name="'+response.group[i].id+'">edit</button></td><td width="5%"><button type="button" class="btn btn-danger deleteGroupButton" name="'+response.group[i].id+'">delete</button></td></tr>';
-							}
-						} else {
-							code = code
-									+ '<tr><th scope="row">'
-									+ (1)
-									+ '</th><td width="90%">'
-									+ response.group.name
-									+ '</td><td><option value='+response.group.id+'></td><td width="5%"></option><button type="button" class="btn btn-warning editGroupButton" name="'+response.group.id+'">edit</button></td><td width="5%"><button type="button" class="btn btn-danger deleteGroupButton" name="'+response.group.id+'">delete</button></td></tr>';
-						}
-
-						code = code + "</tbody>";
-						$("#Groupconfig").html(code);
-					},
-					error : function(e) {
-						console.log(e);
-					}
-				});
-	}
-
-	function viewGroupList() {
-		$(".GroupContainer").fadeIn("slow");
-	}
-
-	function hideGroupList() {
-		$(".GroupContainer").hide();
-	}
-
-	function updateGroup(id, newGroupName) {
-		var group = {};
-		group.id = id;
-		group.name = newGroupName;
-		$.ajax({
-			headers : {
-				Accept : 'application/json'
-			},
-			contentType : 'application/json',
-			type : 'PUT',
-			url : '/JumuManagerWebGIT/api/groups/' + id,
-			data : JSON.stringify(group),
-			success : function(response) {
-				$(".calloutUPDATE").fadeIn("slow");
-				$(".calloutUPDATE").delay(3000).fadeOut("fast");
-				loadGroupList();
-			},
-			error : function(e) {
-				console.log(e);
-			}
-		});
-	}
-
-	function deleteGroup(id) {
-		$.ajax({
-			headers : {
-				Accept : 'application/json'
-			},
-			contentType : 'application/json',
-			type : 'DELETE',
-			url : '/JumuManagerWebGIT/api/groups/' + id,
-			success : function(response) {
-				$(".calloutDELETE").fadeIn("slow");
-				$(".calloutDELETE").delay(3000).fadeOut("fast");
-				loadGroupList();
-			},
-			error : function(e) {
-				console.log(e);
-			}
-		});
-	}
-
-	function loadMemberList() {
-		$
-				.ajax({
+                code = code + '<option value="'+response.group[i].id+'">'+response.group[i].name+'</option>';
+              }
+            }else {
+							code = code + '<option value="'+response.group.id+'">'+response.group.name+'</option>';
+            }
+            $("#groupSelect").html(code);
+          } 
+      });
+    }
+    
+  function getRightList() //Rechte bekommen
+    {
+      $.ajax({
 					headers : {
 						Accept : 'application/json'
 					},
 					type : 'GET',
-					url : "/JumuManagerWebGIT/api/users",
+					url : "/JumuManagerWebGIT/api/rights",
 					success : function(response) {
-						var code = "<thead><tr><th></th><th>Vorname</th><th>Nachname</th><th>email</th><th>Instrument</th><th>Gruppe</th></tr></thead><tbody>";
-						if (response.user.length !== undefined) {
+						var code = "";
+            //Copyright Abfalterer = liebt Phillip
+						if (response.instrument.length !== undefined) {
+							for (var i = 0; i < response.instrument.length; i++) {
+                code = code + '<option value="'+response.instrument[i].id+'">'+response.instrument[i].name+'</option>';
+              }
+            }else {
+							code = code + '<option value="'+response.instrument.id+'">'+response.instrument.name+'</option>';
+            }
+            $("#rightSelect").html(code);
+          } 
+      });
+    }
+             
 
-							for (var i = 0; i < response.user.length; i++) {
-								code = code
-										+ '<tr><th scope="row">'
-										+ (i + 1)
-										+ '</th><td>'
-										+ response.user[i].fname
-										+ '</td><td> '
-										+ response.user[i].lname
-										+ '</td><td> '
-										+ response.user[i].email
-										+ '</td><td> '
-										+ response.user[i].passwd
-										+ '</td><td>'
-										+ response.user[i].instrument
-										+ '</td><td> '
-										+ response.user[i].group
-										+ '</td><td><option value='+response.user[i].id+'></td><td width="5%"></option><button type="button" class="btn btn-warning editMemberButton" name="'+response.user[i].id+'">edit</button></td><td width="5%"><button type="button" class="btn btn-danger deleteMemberButton" name="'+response.user[i].id+'">delete</button></td></tr>';
-							}
-						} else {
-							code = code
-									+ '<tr><th scope="row">'
-									+ 1
-									+ '</th><td> '
-									+ response.user.fname
-									+ '</td><td> '
-									+ response.user.lname
-									+ '</td><td> '
-									+ response.user.email
-									+ '</td><td> '
-									+ response.user.fk_instrument_id
-									+ '</td><td width="90%"> '
-									+ response.user.fk_groups_id
-									+ '</td><td> '
-									+ response.user.password
-									+ '</td><td><option value='+response.user.id+'></td><td width="5%"></option><button type="button" class="btn btn-warning editMemberButton" name="'+response.user.id+'">edit</button></td><td width="5%"><button type="button" class="btn btn-danger deleteMemberButton" name="'+response.user.id+'">delete</button></td></tr>';
-						}
-
-						code = code + "</tbody>";
-						$("#Memberconfig").html(code);
-					},
-					error : function(e) {
-						console.log(e);
-					}
-				});
-	}
-	function viewMemberList() {
-		$(".MemberContainer").fadeIn("slow");
-	}
-	function updateMember(id, newMemberName) {
-		var group = {};
-		group.id = id;
-		group.name = newGroupName;
-		$.ajax({
-			headers : {
-				Accept : 'application/json'
-			},
-			contentType : 'application/json',
-			type : 'PUT',
-			url : '/JumuManagerWebGIT/api/groups/' + id,
-			data : JSON.stringify(group),
-			success : function(response) {
-				$(".calloutUPDATE").fadeIn("slow");
-				$(".calloutUPDATE").delay(3000).fadeOut("fast");
-				loadGroupList();
-			},
-			error : function(e) {
-				console.log(e);
-			}
-		});
-	}
-
-	function deleteMember(id) {
-		$.ajax({
-			headers : {
-				Accept : 'application/json'
-			},
-			contentType : 'application/json',
-			type : 'DELETE',
-			url : '/JumuManagerWebGIT/api/groups/' + id,
-			success : function(response) {
-				$(".calloutDELETE").fadeIn("slow");
-				$(".calloutDELETE").delay(3000).fadeOut("fast");
-				loadGroupList();
-			},
-			error : function(e) {
-				console.log(e);
-			}
-		});
-	}
-	function editMemberdata() {
-		var code = '<tr><td>Vorname:</td><td><input type="text" name="fnameInput" class="form-control" placeholder="Vorname"></td>';
-		$("#editMemberConfigData").html(code);
-	}
-
-	function readGroupID() {
-
-	}
-
-	function loadTerminList() {
-		$
-				.ajax({
-					headers : {
-						Accept : 'application/json'
-					},
-					type : 'GET',
-					url : "/JumuManagerWebGIT/api/termine",
-					success : function(response) {
-						var code = "<thead><tr><th>#</th><th>Bezeichnung</th><th>Typ</th><th>Datum</th><th>Startzeit</th><th>Endzeit</th></tr></thead><tbody>";
-						if (response.termin.length !== undefined) {
-							for (var i = 0; i < response.termin.length; i++) {
-								code = code
-										+ '<tr><th scope="row">'
-										+ (i + 1)
-										+ '</th><td width="90%">'
-										+ response.termin[i].name
-										+ '</td><td><option value='+response.termin[i].id+'></td><td width="5%"></option><button type="button" class="btn btn-warning editGroupButton" name="'+response.termin[i].id+'">edit</button></td><td width="5%"><button type="button" class="btn btn-danger deleteGroupButton" name="'+response.termin[i].id+'">delete</button></td></tr>';
-										
-								
-							}
-						} else {
-							code = code
-									+ '<tr><th scope="row">'
-									+ 1
-									+ '</th><td>'
-									+ response.termin.name
-									+ '</td><td>'
-									+ response.termin.typName
-									+ '</td><td>'
-									+ response.termin.date
-									+ '</td><td>'
-									+ response.termin.starttime
-									+ '</td><td>'
-									+ response.termin.endtime
-									+ '</td><td><option value='+response.termin.id+'></td><td width="5%"></option><button type="button" class="btn btn-warning editGroupButton" name="'+response.termin.id+'">edit</button></td><td width="5%"><button type="button" class="btn btn-danger deleteGroupButton" name="'+response.termin.id+'">delete</button></td></tr>';
-									
-									
-						}
-						code = code + "</tbody>";
-						$("#Terminconfig").html(code);
-					},
-					error : function(e) {
-						console.log(e);
-					}
-				});
-	}
-	function viewTerminList() {
-		$(".TerminContainer").fadeIn("slow");
-	}
 </script>
 <body>
 
@@ -394,7 +207,7 @@
 		<div class="row">
 			<div class="col-md-4">
 				<button type="submit" class="btn btn-default" id="GroupButton">
-					<img data-holder-rendered="true" src="./img/group.png"
+					<img data-holder-rendered="true" src="./img/group.svg"
 						style="width: 140px; height: 140px;" data-src="holder.js/140x140"
 						class="img-rounded" alt="140x140">
 					<p class="lead">Gruppeneinstellung</p>
@@ -402,7 +215,7 @@
 			</div>
 			<div class="col-md-4">
 				<button type="submit" class="btn btn-default" id="MemberButton">
-					<img data-holder-rendered="true" src="./img/group.png"
+					<img data-holder-rendered="true" src="./img/members.svg"
 						style="width: 140px; height: 140px;" data-src="holder.js/140x140"
 						class="img-rounded" alt="140x140">
 					<p class="lead">Mitglieder</p>
@@ -410,7 +223,7 @@
 			</div>
 			<div class="col-md-4">
 				<button type="submit" class="btn btn-default" id="TerminButton">
-					<img data-holder-rendered="true" src="./img/group.png"
+					<img data-holder-rendered="true" src="./img/calendar.svg"
 						style="width: 140px; height: 140px;" data-src="holder.js/140x140"
 						class="img-rounded" alt="140x140">
 					<p class="lead">Termine</p>
@@ -448,9 +261,28 @@
 	<div class="container editMemberContainer" style="display: none">
 		// Membereditansicht
 		<div class="page-header">
-			<h1>Update Userdata</h1>
+			<h1>Userdata</h1>
 		</div>
-		<table class="table table-hover" id="editMemberConfigData"></table>
+		<table class="table table-hover" id="editMemberConfigData">
+      <tr><td><label for="fnameInput">Vorname</label><input type="text" class="form-control" placeholder="Vorname" id="fnameInput" /></td>
+          <td><label for="lnameInput">Nachname</label><input type="text" class="form-control" placeholder="Nachname" id="lnameInput" /></td>
+      </tr>
+      <tr>
+          <td><label for="emailInput">Email</label><input type="email" class="form-control" placeholder="Email" id="emailInput" /></td>
+          <td><label for="passwdInput">Passwort</label><input type="password" class="form-control" placeholder="Password" id="passwdInput" /></td>
+      </tr>
+      <tr> 
+        <td><label for="instrumentSelect">Instrument</label><select id="instrumentSelect" class="form-control"></select></td>
+        <td><label for="groupSelect">Gruppe</label><select id="groupSelect" class="form-control"></select></td>
+      </tr>
+      <tr>
+        <td><label for="rightSelect">Rechte</label><select id="rightSelect" class="form-control"></select></td>
+      </tr>
+      
+    </table>
+    <button type="submit" class="btn btn-default" id="saveMemberButton" style="font-size: 17px;"><img data-holder-rendered="true" src="./img/personadd.svg" style="width: 24px; height: 24px;" data-src="holder.js/140x140" class="img-rounded" alt="30x30">
+					Save
+				</button>
 	</div>
 
 	<div class="container GroupContainer" style="display: none">
@@ -463,7 +295,7 @@
 	<div class="container MemberContainer" style="display: none">
 		// Mitgliederansicht
 		<div class="page-header">
-			<h1>Usermanagement</h1>
+      <h1>Usermanagement</h1> <button type="submit" class="btn btn-primary" id="addMemberButton" style="font-size: 17px;"><img data-holder-rendered="true" src="./img/personadd.svg" style="width: 24px; height: 24px;" data-src="holder.js/140x140" class="img-rounded" alt="50x30">   neuer User</button>
 		</div>
 		<table class="table table-hover" id="Memberconfig"></table>
 	</div>
