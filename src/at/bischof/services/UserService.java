@@ -14,6 +14,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import at.bischof.tasks.dao.UserDAO;
+import at.bischof.tasks.vo.Right;
 import at.bischof.tasks.vo.User;
 
 @Path("users")
@@ -81,5 +82,14 @@ public class UserService {
 		return Response.ok().build();
 		
 	}
+	
+	@GET
+	@Path("rights")
+	@Produces({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
+	public List<Right> getRights() throws SQLException{
+		UserDAO dao = new UserDAO();
+		return dao.getRights(); 
+	}
+	
 
 }

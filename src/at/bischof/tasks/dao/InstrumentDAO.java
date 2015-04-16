@@ -17,7 +17,7 @@ public class InstrumentDAO {
 		try {
 			List<Instrument> iList = new ArrayList<Instrument>();
 
-			String sql = "SELECT * from tbl_instruments";
+			String sql = "SELECT * from tbl_instrument";
 			PreparedStatement ps = getConnection().prepareStatement(sql);
 			ResultSet rs = ps.executeQuery();
 
@@ -125,7 +125,7 @@ public class InstrumentDAO {
 			Class.forName("com.mysql.jdbc.Driver");
 			conn = DriverManager
 					.getConnection("jdbc:mysql://localhost/jumumanager?"
-							+ "user=root&password=");
+							+ "user=root&password=root123");
 			return conn;
 			// Do something with the Connection
 		} catch (SQLException ex) {

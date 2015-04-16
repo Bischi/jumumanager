@@ -1,13 +1,16 @@
 package at.bischof.tasks.dao;
 
+import java.security.MessageDigest;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Connection;
 
+import at.bischof.tasks.vo.Right;
 import at.bischof.tasks.vo.User;
 
 public class UserDAO {
@@ -17,7 +20,7 @@ public class UserDAO {
 		try {
 			List<User> uList = new ArrayList<User>();
 
-			String sql = "Select u.id, u.fname, u.lname, u.email, u.passwd, inst.name, grp.name, ri.name From tbl_user u inner join tbl_instrument inst ON u.tbl_instrument_id = inst.id inner join tbl_groups grp ON u.tbl_groups_id = grp.id inner join tbl_rights ri ON u.tbl_rights_id = ri.id";
+			String sql = "Select u.id, u.fname, u.lname, u.email, u.passwd, u.token, inst.name, grp.name, ri.name From tbl_user u inner join tbl_instrument inst ON u.tbl_instrument_id = inst.id inner join tbl_groups grp ON u.tbl_groups_id = grp.id inner join tbl_rights ri ON u.tbl_rights_id = ri.id";
 			PreparedStatement ps = getConnection().prepareStatement(sql);
 			ResultSet rs = ps.executeQuery();
 
@@ -26,7 +29,7 @@ public class UserDAO {
 			}
 
 			while (!rs.isAfterLast()) {
-				User u = new User(rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getInt(1),rs.getString(6),rs.getString(7),rs.getString(8));
+				User u = new User(rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getInt(1),rs.getString(7),rs.getString(8),rs.getString(9),rs.getString(5));
 				uList.add(u);
 				rs.next();
 			}
@@ -41,7 +44,7 @@ public class UserDAO {
 	}
 
 	public User getUserById(int mid) {
-		String selectStatement = "SELECT u.fname, u.lname, u.email, u.passwd, inst.name, grp.name, ri.name From tbl_user u inner join tbl_instrument inst ON u.tbl_instrument_id = inst.id inner join tbl_groups grp ON u.tbl_groups_id = grp.id inner join tbl_rights ri ON u.tbl_rights_id = ri.id; WHERE u.id = ?";
+		String selectStatement = "SELECT u.fname, u.lname, u.email, u.passwd, u.token, inst.name, grp.name, ri.name From tbl_user u inner join tbl_instrument inst ON u.tbl_instrument_id = inst.id inner join tbl_groups grp ON u.tbl_groups_id = grp.id inner join tbl_rights ri ON u.tbl_rights_id = ri.id; WHERE u.id = ?";
 		PreparedStatement ps;
 
 		try {
@@ -49,7 +52,7 @@ public class UserDAO {
 			ps.setInt(1, mid);
 
 			ResultSet rs = ps.executeQuery();
-			User u = new User(rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getInt(1),rs.getString(6),rs.getString(7),rs.getString(8));
+			User u = new User(rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getInt(1),rs.getString(6),rs.getString(7),rs.getString(8),rs.getString(9));
 			return u;
 
 		} catch (SQLException e) {
@@ -63,8 +66,35 @@ public class UserDAO {
 
 	public void insertUser(User u) {
 
-		String insertStatement = "Insert INTO tbl_user (fname,lname,email,passwd,tbl_instrument_id,tbl_groups_id,tbl_rights_id)VALUES(?,?,?,?,?,?,?)";
+		String insertStatement = "Insert INTO tbl_user (fname,lname,email,passwd,token,tbl_instrument_id,tbl_groups_id,tbl_rights_id)VALUES(?,?,?,?,?,?,?,?)";
 
+		
+		String token = UUID.randomUUID().toString().toUpperCase() 
+	            + "|" + "userid" + "|";
+	     
+		u.setToken(token);
+		
+		try{
+			String value = u.getPassword();
+			 
+			MessageDigest md = MessageDigest.getInstance("SHA-256");
+			md.update(value.getBytes());
+		 
+			byte byteData[] = md.digest();
+		 
+			//konvertiere byte nach hex
+			StringBuffer sb = new StringBuffer();
+			for (int i = 0; i < byteData.length; i++) 
+			{
+				sb.append(Integer.toString(byteData[i]));
+			}
+			u.setPassword(sb.toString());
+			
+		}
+    	catch(Exception e){
+    		
+    	}
+		
 		PreparedStatement ps;
 		try {
 			ps = getConnection().prepareStatement(insertStatement);
@@ -72,9 +102,10 @@ public class UserDAO {
 			ps.setString(2, u.getLname());
 			ps.setString(3, u.getEmail());
 			ps.setString(4, u.getPassword());
-			ps.setString(5, u.getFk_instrument_id());
-			ps.setString(6, u.getFk_groups_id());
-			ps.setString(7, u.getFk_rights_id());
+			ps.setString(5, u.getToken());
+			ps.setString(6, u.getFk_instrument_id());
+			ps.setString(7, u.getFk_groups_id());
+			ps.setString(8, u.getFk_rights_id());
 
 			ps.execute();
 
@@ -128,6 +159,33 @@ public class UserDAO {
 		}
 
 	}
+	
+	public List<Right> getRights(){
+		
+		try {
+			List<Right> rList = new ArrayList<Right>();
+
+			String sql = "Select * From tbl_rights Where id != 3";
+			PreparedStatement ps = getConnection().prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+
+			if (!rs.first()) {
+				return rList;
+			}
+
+			while (!rs.isAfterLast()) {
+				Right r = new Right(rs.getInt(1),rs.getString(2));
+				rList.add(r);
+				rs.next();
+			}
+
+			return rList;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
 
 	private Connection getConnection() {
 		try {
@@ -135,7 +193,7 @@ public class UserDAO {
 			Class.forName("com.mysql.jdbc.Driver");
 			conn = DriverManager
 					.getConnection("jdbc:mysql://localhost/jumumanager?"
-							+ "user=root&password=");
+							+ "user=root&password=root123");
 			return conn;
 			// Do something with the Connection
 		} catch (SQLException ex) {
