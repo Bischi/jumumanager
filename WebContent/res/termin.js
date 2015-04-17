@@ -22,7 +22,7 @@ function loadTerminList() {
                     + response.termin[i].starttime
                     + '</td><td>'
                     + response.termin[i].endtime
-										+ '</td><td><option value='+response.termin[i].id+'></td><td width="5%"></option><button type="button" class="btn btn-warning editGroupButton" name="'+response.termin[i].id+'">edit</button></td><td width="5%"><button type="button" class="btn btn-danger deleteGroupButton" name="'+response.termin[i].id+'">delete</button></td></tr>';								
+										+ '</td><td><option value='+response.termin[i].id+'></td><td width="5%"></option><button type="button" class="btn btn-warning editTerminButton" name="'+response.termin[i].id+'">edit</button></td><td width="5%"><button type="button" class="btn btn-danger deleteTerminButton" name="'+response.termin[i].id+'">delete</button></td></tr>';								
 
 							}
 						} else {
@@ -32,14 +32,14 @@ function loadTerminList() {
 									+ '</th><td>'
 									+ response.termin.name
 									+ '</td><td>'
-									+ response.termin.typName
+									+ response.termin.fk_typ
 									+ '</td><td>'
 									+ response.termin.date
 									+ '</td><td>'
 									+ response.termin.starttime
 									+ '</td><td>'
 									+ response.termin.endtime
-									+ '</td><td><option value='+response.termin.id+'></td><td width="5%"></option><button type="button" class="btn btn-warning editGroupButton" name="'+response.termin.id+'">edit</button></td><td width="5%"><button type="button" class="btn btn-danger deleteGroupButton" name="'+response.termin.id+'">delete</button></td></tr>';
+									+ '</td><td><option value='+response.termin.id+'></td><td width="5%"></option><button type="button" class="btn btn-warning editTerminButton" name="'+response.termin.id+'">edit</button></td><td width="5%"><button type="button" class="btn btn-danger deleteTerminButton" name="'+response.termin.id+'">delete</button></td></tr>';
 									
 									
 						}
@@ -79,6 +79,26 @@ function addTermin()
     error : function(e){console.log(e);}
     });
   }
+
+function deleteTermin(id) {		
+		$.ajax({
+			headers : {
+				Accept : 'application/json'
+			},
+			contentType : 'application/json',
+			type : 'DELETE',
+			url : '/JumuManagerWebGIT/api/termine/' + id,
+			success : function(response) {
+				$(".calloutDELETE").fadeIn("slow");
+				$(".calloutDELETE").delay(3000).fadeOut("fast");
+			},
+			error : function(e) {
+				console.log(e);
+			}
+		
+		});
+	}
+
 
 
 	function viewTerminList() {

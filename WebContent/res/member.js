@@ -93,10 +93,10 @@ function loadMemberList() {
   
   function hideMemberEditConfig()
   {
-    $("#editMemberContainer").fadeOut("slow");
+    $(".editMemberContainer").fadeOut("slow");
   }
 
-	function updateMember() {
+	function updateMember(id) {
 		var user = {};
     user.fname=$("#fnameInput").val();
     user.lname=$("#lnameInput").val();
@@ -124,9 +124,7 @@ function loadMemberList() {
     });
 	}
 
-	function deleteMember(id) {
-		alert(id);
-		
+	function deleteMember(id) {		
 		$.ajax({
 			headers : {
 				Accept : 'application/json'
@@ -145,7 +143,7 @@ function loadMemberList() {
 			}
 		
 		});
-		loadGroupList()
+		loadMemberList()
 	}
 
  function viewMemberEditContainer() {

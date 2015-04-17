@@ -87,14 +87,35 @@
         $(document).on("click", "#saveMemberButton", function() {
           addMember();
           loadMemberList();
-         //hideMemberEditConfig();
-          //viewMemberList();
+          hideMemberEditConfig();
+          viewMemberList();
 				});
 				$(document).on("click",	".editMemberButton", function() {
-							var selectedMemberID = $(this).attr('name');
-							editMemberdata();
-							updateMember(selectedMemberID, fname, lname, email,	passwd, instrument, group); //Update of Userdata
+			        var selectedMemberID = $(this).attr('name');
+              var memberFname = $(this).parent().parent().children().eq(1).text();
+              var memberLname = $(this).parent().parent().children().eq(2).text();
+              var memberEmail = $(this).parent().parent().children().eq(3).text();
+              var memberInstument = $(this).parent().parent().children().eq(4).text();
+              var memberGroup = $(this).parent().parent().children().eq(5).text();
+              hideMemberList();
+              $("#saveMemberButton").hide();
+              $("#saveMemberButton").hide();
+              $("#fnameInput").val(memberFname);
+              $("#lnameInput").val(memberLname);
+              $("#emailInput").val(memberEmail);
+              $("#fnameInput").val(memberFname);
+              $("instrumentSelect").select(memberInstument);
+              $("groupSelect").select(memberGroup);
+              getInstrumentList();
+              getRightList();
+              fillGroupSelect(); // Selection button for selecting group
+              $("#updateMemberButton").fadeIn('fast');
+              viewMemberEditContainer();
 						});
+        $(document).on("click", "#updateMemberButton", function() {
+					var selectedMemberID = $(".editMemberButton").attr('name');
+          updateMember(selectedMemberID);
+				}); 
 				$(document).on("click", ".deleteMemberButton", function() {
 					var selectedMemberID = $(this).attr('name');
 					deleteMember(selectedMemberID);
@@ -122,6 +143,12 @@
           loadTerminList();
           viewTerminList();
 				});
+        $(document).on("click", ".deleteTerminButton", function() {
+					var selectedTerminID = $(this).attr('name');
+					deleteTermin(selectedTerminID);
+          loadTerminList();
+				});        
+
 
 			});
 
@@ -162,7 +189,7 @@
 		</nav>
 	</div>
 	<!-- Begin page content -->
-
+  <div class="conatiner" style="margin-top: 50px"> </div>
 	<div style="margin-top: 50px" class="container mainpage">
 		<div class="page-header">
 			<h1>DASHBOARD</h1>
@@ -196,6 +223,14 @@
 					<p class="lead">Termine</p>
 				</button>
 			</div>
+      <div class="col-md-4">
+				<button type="submit" class="btn btn-default" id="InstrumentButton" style="margin-top: 20px">
+					<img data-holder-rendered="true" src="./img/calendar.svg"
+						style="width: 140px; height: 140px;" data-src="holder.js/140x140"
+						class="img-rounded" alt="140x140">
+					<p class="lead">Instrumente</p>
+				</button>
+			</div>
 		</div>
 	</div>
 
@@ -225,8 +260,7 @@
 			<p>Delete successful!</p>
 		</div>
 	</div>
-	<div class="container editMemberContainer" style="display: none">
-		// Membereditansicht
+	<div class="container editMemberContainer" style="display: none" style="margin-top: 50px">
 		<div class="page-header">
 			<h1>Userdata</h1>
 		</div>
@@ -252,7 +286,6 @@
 	</div>
   
   <div class="container addGroupContainer" style="display: none">
-		// Membereditansicht
 		<div class="page-header">
 			<h1>Groupdata</h1>
 		</div>
@@ -264,7 +297,6 @@
 	</div>
   
   <div class="container editTerminContainer" style="display: none">
-		// Membereditansicht
 		<div class="page-header">
 			<h1>Userdata</h1>
 		</div>
@@ -286,7 +318,6 @@
 	</div>
 
 	<div class="container GroupContainer" style="display: none">
-		// Gruppenansicht
 		<div class="page-header">
 			<h1>Groupmanagment</h1><button type="submit" class="btn btn-primary" id="addGroupButton" style="font-size: 17px;"><img data-holder-rendered="true" src="./img/group.svg" style="width: 24px; height: 24px;" data-src="holder.js/140x140" class="img-rounded" alt="50x30">   neue Gruppe</button>
 		</div>
@@ -294,7 +325,6 @@
 	</div>
   
 	<div class="container MemberContainer" style="display: none">
-		// Mitgliederansicht
 		<div class="page-header">
       <h1>Usermanagement</h1> <button type="submit" class="btn btn-primary" id="addMemberButton" style="font-size: 17px;"><img data-holder-rendered="true" src="./img/personadd.svg" style="width: 24px; height: 24px;" data-src="holder.js/140x140" class="img-rounded" alt="50x30">   neuer User</button>
 		</div>
@@ -302,7 +332,6 @@
 	</div>
   
 	<div class="container TerminContainer" style="display: none">
-		// Mitgliederansicht
 		<div class="page-header">
 			<h1>Terminmanagement</h1><button type="submit" class="btn btn-primary" id="addTerminButton" style="font-size: 17px;"><img data-holder-rendered="true" src="./img/personadd.svg" style="width: 24px; height: 24px;" data-src="holder.js/140x140" class="img-rounded" alt="50x30">   neuer Termin</button>
 		</div>
