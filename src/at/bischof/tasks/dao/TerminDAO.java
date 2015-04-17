@@ -65,7 +65,7 @@ public class TerminDAO {
 	
 	public void insertTermin(Termin t) {
 
-		String insertStatement = "Insert INTO tbl_termin (name,date,startdate,enddate,tbl_typ_id)VALUES(?,?,?,?,?)";
+		String insertStatement = "Insert INTO tbl_termin (name,date,starttime,endtime,tbl_typ_id)VALUES(?,?,?,?,?)";
 
 		PreparedStatement ps;
 		try {

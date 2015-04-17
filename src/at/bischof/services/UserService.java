@@ -91,5 +91,13 @@ public class UserService {
 		return dao.getRights(); 
 	}
 	
+	@GET
+	@Path("rights/{email}")
+	@Produces({MediaType.APPLICATION_JSON})
+	public User getRightByEmail(@PathParam("email") String memail) throws SQLException{
+		UserDAO dao = new UserDAO();
+		return dao.getRightByEmail(memail); 
+	}
+	
 
 }

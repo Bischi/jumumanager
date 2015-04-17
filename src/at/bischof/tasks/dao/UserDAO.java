@@ -191,6 +191,30 @@ public class UserDAO {
 			return null;
 		}
 	}
+	
+	public User getRightByEmail(String memail) {
+		String selectStatement = "SELECT u.id, u.fname, u.lname, u.email, u.passwd, u.token, inst.name, grp.name, ri.name From tbl_user u inner join tbl_instrument inst ON u.tbl_instrument_id = inst.id inner join tbl_groups grp ON u.tbl_groups_id = grp.id inner join tbl_rights ri ON u.tbl_rights_id = ri.id WHERE u.email = ?";
+		PreparedStatement ps;
+
+		try {
+			ps = getConnection().prepareStatement(selectStatement);
+			ps.setString(1, memail);
+
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			User u = new User(rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getInt(1),rs.getString(7),rs.getString(8),rs.getString(9),rs.getString(6));
+			
+			
+			return u;
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+
+			return null;
+
+		}
+	}
 
 	private Connection getConnection() {
 		try {
