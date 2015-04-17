@@ -10,85 +10,67 @@ public class Termin {
 	private String starttime;
 	private String endtime;
 	private int id;
-	private int fk_typ;
-	private String color;
-	private String typName;
+	private String fk_typ;
 	
-	public Termin(String name, String date, String starttime, String endtime, int id, String color, String typName ){
+	
+	
+	
+	public Termin(String name, String date, String starttime, String endtime, int id, String color,String fk_typ){
 		this.name = name;
 		this.date = date;
 		this.starttime = starttime;
 		this.endtime = endtime;
 		this.id = id;
-		this.color = color;
-		this.typName = typName;
+		this.fk_typ = fk_typ;
+		
+		
 	}
 	public Termin(){}
-	
-	
-	public String getName(){
+	public String getName() {
 		return name;
 	}
-	
-	public String getDate(){
-		return date;
-	}
-	
-	public String getStarttime(){
-		return starttime;
-	}
-	
-	public String getEndtime(){
-		return endtime;
-	}
-	
-	public int getId(){
-		return id;
-	}
-	
-	public int getFkTyp(){
-		return fk_typ;
-	}
-	
-	public String getColor(){
-		return color;
-	}
-	
-	public String getTypName(){
-		return typName;
-	}
-
-	public int getFk_typ() {
-		return fk_typ;
-	}
-
 	public void setName(String name) {
 		this.name = name;
 	}
-
+	public String getDate() {
+		return date;
+	}
 	public void setDate(String date) {
 		this.date = date;
 	}
-
+	public String getStarttime() {
+		return starttime;
+	}
 	public void setStarttime(String starttime) {
 		this.starttime = starttime;
 	}
-
+	public String getEndtime() {
+		return endtime;
+	}
 	public void setEndtime(String endtime) {
 		this.endtime = endtime;
 	}
-
+	public int getId() {
+		return id;
+	}
 	public void setId(int id) {
 		this.id = id;
 	}
-
-	public void setColor(String color) {
-		this.color = color;
+	public String getFk_typ() {
+		return fk_typ;
 	}
-
-	public void setTypName(String typName) {
-		this.typName = typName;
+	public void setFk_typ(String fk_typ) {
+		this.fk_typ = fk_typ;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 

@@ -74,7 +74,7 @@ public class TerminDAO {
 			ps.setString(2, t.getDate());
 			ps.setString(3, t.getStarttime());
 			ps.setString(4, t.getEndtime());
-			ps.setInt(5, t.getFkTyp());
+			ps.setString(5, t.getFk_typ());
 			
 
 			ps.execute();
@@ -98,7 +98,7 @@ public class TerminDAO {
 			ps.setString(2, t.getDate());
 			ps.setString(3, t.getStarttime());
 			ps.setString(4, t.getEndtime());
-			ps.setInt(5, t.getFkTyp());
+			ps.setString(5, t.getFk_typ());
 			ps.setInt(6, mid);
 			
 			ps.execute();

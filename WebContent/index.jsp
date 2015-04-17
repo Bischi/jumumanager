@@ -33,6 +33,7 @@
 <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
 <script src="res/jquery.js"></script>
 <script src="res/sha256.js"></script>
+<script src="./res/representation.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
 		$(document).on("click", "#loginButton", function() {
@@ -49,6 +50,7 @@
 
 	function loginUser() {
 		var user = {};
+		var email = $('#inputmail').val();
 		user.email = $('#inputmail').val();
 		user.passwd = $('#inputPassword').val();
 		
@@ -58,11 +60,12 @@
 			url : '/JumuManagerWebGIT/api/logincheck',
 			data : JSON.stringify(user),
 			success : function() {
-				window.location.href = "dashboard.jsp";
+				checkRights(email);
 			},
 			error : function(e) {
 				if (e.status == 200) {
-					window.location.href = "dashboard.jsp";
+					checkRights(email);
+					
 					return;
 				}
 				$('#alertLogin').fadeIn('slow').delay(10000).fadeOut("slow");

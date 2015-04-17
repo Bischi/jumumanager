@@ -15,7 +15,7 @@ function loadTerminList() {
 										+ '</th><td width="90%">'
 										+ response.termin[i].name									
                     + '</td><td>'
-                    + response.termin[i].typName
+                    + response.termin[i].fk_typ
                     + '</td><td>'
                     + response.termin[i].date
                     + '</td><td>'
@@ -59,7 +59,7 @@ function addTermin()
     termin.date=$("#dateInput").val();
     termin.starttime=$("#starttimeInput").val();
     termin.endtime=$("#endtimeInput").val();
-    termin.tbl_typ_id=$("#typSelect").val();
+    termin.fk_typ=$("#typSelect").val();
     $.ajax({
     headers:{Accept:'application/json'}, 
     contentType:'application/json',
@@ -74,6 +74,7 @@ function addTermin()
         $("#endtimeInput").val('');
         $(".calloutADD").fadeIn("slow");
         $(".calloutADD").delay(3000).fadeOut("fast");
+        loadTerminList()
     },
     error : function(e){console.log(e);}
     });

@@ -122,7 +122,7 @@ public class UserDAO {
 
 	public void updateUser(User u, int mid) {
 
-		String updateStatement = "UPDATE tbl_user SET fname = ?, lname = ?, email = ?, tbl_instrument_id = ?, tbl_rights_id = ? WHERE id = ?";
+		String updateStatement = "UPDATE tbl_user SET fname = ?, lname = ?, email = ?, passwd =?, tbl_instrument_id = ?, tbl_rights_id = ? WHERE id = ?";
 		PreparedStatement ps;
 
 		try {
@@ -130,9 +130,10 @@ public class UserDAO {
 			ps.setString(1, u.getFname());
 			ps.setString(2, u.getLname());
 			ps.setString(3, u.getEmail());
-			ps.setString(4, u.getFk_instrument_id());
-			ps.setString(5, u.getFk_rights_id());
-			ps.setInt(6, mid);
+			ps.setString(4, u.getPassword());
+			ps.setString(5, u.getFk_instrument_id());
+			ps.setString(6, u.getFk_rights_id());
+			ps.setInt(7, mid);
 
 			ps.execute();
 
